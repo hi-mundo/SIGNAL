@@ -1,8 +1,10 @@
-# SIGNAL for Teams
+# UX Framework for Teams
 
-SIGNAL is meant to be used by teams building LLM-based products.
+SIGNAL is meant to be used by teams building LLM-based products and AI-assisted workflows.
 
-It is not only a writing guide. It is a way to review the user experience created by AI language.
+It is not a software tool, a research paper, or only a writing guide.
+
+It is a practical framework for reviewing and improving the user experience created by AI language.
 
 ---
 

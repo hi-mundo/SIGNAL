@@ -1,17 +1,17 @@
-# SIGNAL
+# UX Framework for Teams
 
-**A framework for designing AI user experience through language.**
+**SIGNAL is a practical UX framework for teams designing AI experiences through language.**
 
-SIGNAL helps teams design better conversational AI systems.
+SIGNAL helps product, design, engineering, research, support, and eval teams design better conversational AI experiences without relying on guesswork.
 
-In conversational AI, language is the main interaction surface. The assistant's words shape how the user understands the system, trusts it, controls it, waits for it, corrects it, and completes a task.
+In conversational AI, language is the main user experience surface. The assistant's words shape how the user understands the system, trusts it, controls it, waits for it, corrects it, and completes a task.
 
-SIGNAL focuses on that layer.
+SIGNAL focuses on that UX layer.
 
 It is not about visual UI, layout, colors, buttons, or screens.
-It is not a model benchmark, SDK, agent runtime, or prompt collection.
+It is not a software tool, model benchmark, SDK, agent runtime, prompt collection, or scientific paper.
 
-SIGNAL is a pattern framework for designing how AI systems communicate with users.
+It is a team framework for designing how AI systems communicate with users.
 
 ---
 
@@ -32,13 +32,13 @@ It is also created by language:
 - how it recovers from errors;
 - how much cognitive effort it demands from the user.
 
-SIGNAL uses language, pragmatics, cognitive psychology, and communication patterns to make AI interactions clearer, calmer, more trustworthy, and more productive.
+SIGNAL uses language, pragmatics, cognitive psychology, and communication patterns to help teams make AI interactions clearer, calmer, more trustworthy, and more productive.
 
 ---
 
-## What SIGNAL helps teams design
+## How teams use SIGNAL
 
-SIGNAL helps answer questions like:
+Teams use SIGNAL to answer questions like:
 
 - How should the assistant clarify what the user wants?
 - How should it show uncertainty without confusing the user?
@@ -78,9 +78,9 @@ In conversational AI, language is part of the user experience.
 
 ---
 
-## Who SIGNAL is for
+## Who it is for
 
-SIGNAL is for teams building LLM-based products:
+SIGNAL is for teams building LLM-based products and AI-assisted workflows:
 
 - product teams;
 - AI engineers;
@@ -93,7 +93,7 @@ SIGNAL is for teams building LLM-based products:
 
 ---
 
-## What SIGNAL provides
+## What it provides
 
 - communication patterns;
 - anti-patterns;
@@ -102,6 +102,8 @@ SIGNAL is for teams building LLM-based products:
 - conversation design techniques;
 - references for deeper study.
 
+The references support the framework. They are not the product.
+
 ---
 
 ## Start here
@@ -109,8 +111,9 @@ SIGNAL is for teams building LLM-based products:
 | File | Purpose |
 |---|---|
 | [`docs/WHY_SIGNAL.md`](docs/WHY_SIGNAL.md) | Explains the thesis: AI user experience through language. |
-| [`docs/PATTERNS.md`](docs/PATTERNS.md) | Practical linguistic and psychological techniques for conversational AI. |
 | [`docs/FOR_TEAMS.md`](docs/FOR_TEAMS.md) | How product, design, engineering, support, and eval teams can use SIGNAL. |
+| [`docs/PATTERNS.md`](docs/PATTERNS.md) | Practical linguistic and psychological techniques for conversational AI. |
+| [`docs/FRAMEWORK.md`](docs/FRAMEWORK.md) | The full reference model: pillars, criteria, patterns, anti-patterns, checklists, and templates. |
 | [`docs/THEORY_AND_RESEARCH.md`](docs/THEORY_AND_RESEARCH.md) | Research notes and references behind the techniques. |
 | [`templates/conversation_ux_review.md`](templates/conversation_ux_review.md) | A lightweight review template teams can copy. |
 

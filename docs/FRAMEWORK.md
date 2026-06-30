@@ -1,8 +1,10 @@
-# SIGNAL Framework Details
+# UX Framework Reference
 
-**Semantic Interaction Guidelines for Natural AI Language**
+**SIGNAL: Semantic Interaction Guidelines for Natural AI Language**
 
-This document contains the full working model for SIGNAL: pillars, criteria, patterns, anti-patterns, maturity levels, checklists, and templates.
+This document is the full reference model for SIGNAL, a UX framework for teams designing AI experiences through language.
+
+Use it when you need the complete pillars, criteria, patterns, anti-patterns, maturity levels, checklists, and templates.
 
 Use [`../README.md`](../README.md) as the public entry point, [`RESEARCH_AND_BENCHMARKS.md`](RESEARCH_AND_BENCHMARKS.md) as the supporting evidence file, [`APPLICATIONS_AND_PROFILES.md`](APPLICATIONS_AND_PROFILES.md) as the domain application registry, [`MODEL_PRIORS_AND_RETRIEVAL_OVERLAP.md`](MODEL_PRIORS_AND_RETRIEVAL_OVERLAP.md) as the context-anchoring and retrieval-overlap extension, and [`VISIBLE_WORK_TRACE.md`](VISIBLE_WORK_TRACE.md) as the long-turn progress and operational-trace extension.
 
