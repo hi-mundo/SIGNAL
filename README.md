@@ -99,7 +99,9 @@ Proactive understanding:
 
 - what the system is doing actively and passively;
 - what may become relevant from earlier context;
-- what may cost, risk, or create consequences for the user.
+- what may cost, risk, or create consequences for the user;
+- what AI can do for the user without being explicitly asked;
+- what follow-up or action suggestion the AI can offer.
 
 It should communicate:
 

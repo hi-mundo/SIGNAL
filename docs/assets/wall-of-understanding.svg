@@ -1,103 +1,108 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="760" viewBox="0 0 1440 760" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
   <title id="title">SIGNAL Wall of Understanding</title>
-  <desc id="desc">SIGNAL components sitting on top of a common AI flow from user context to visible value.</desc>
+  <desc id="desc">A matrix showing SIGNAL responsibilities above each stage of a common AI flow.</desc>
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-      <path d="M2,2 L10,6 L2,10 Z" fill="#2f2f2f"/>
+      <path d="M2,2 L10,6 L2,10 Z" fill="#242424"/>
     </marker>
     <style>
-      .bg { fill: #f7f7f4; }
+      .bg { fill: #f6f6f2; }
       .title { fill: #202020; font: 800 44px Inter, ui-sans-serif, system-ui, sans-serif; }
-      .subtitle { fill: #5c5c5c; font: 500 22px Inter, ui-sans-serif, system-ui, sans-serif; }
-      .label { fill: #202020; font: 700 24px Inter, ui-sans-serif, system-ui, sans-serif; }
-      .small { fill: #555; font: 500 17px Inter, ui-sans-serif, system-ui, sans-serif; }
-      .tiny { fill: #666; font: 500 14px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .subtitle { fill: #595959; font: 500 21px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .band-title { fill: #202020; font: 800 22px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .stage { fill: #e8ecef; stroke: #222; stroke-width: 2; }
       .signal { fill: #ffffff; stroke: #222; stroke-width: 2; }
-      .flow { fill: #e9ecef; stroke: #222; stroke-width: 2; }
+      .signal-soft { fill: #fdfdfb; stroke: #777; stroke-width: 1.5; }
       .value { fill: #dfeee7; stroke: #1f5137; stroke-width: 2; }
-      .line { stroke: #2f2f2f; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
-      .softline { stroke: #777; stroke-width: 2; stroke-dasharray: 7 7; fill: none; marker-end: url(#arrow); }
+      .stage-text { fill: #202020; font: 800 21px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .label { fill: #202020; font: 800 18px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .body { fill: #555; font: 500 15px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .small { fill: #555; font: 500 14px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .line { stroke: #242424; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .down { stroke: #777; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }
     </style>
   </defs>
 
-  <rect class="bg" width="1440" height="760"/>
+  <rect class="bg" width="1440" height="820"/>
 
-  <text class="title" x="720" y="72" text-anchor="middle">Wall of Understanding</text>
-  <text class="subtitle" x="720" y="112" text-anchor="middle">SIGNAL sits on top of the common AI flow and assigns UX responsibility to each stage.</text>
+  <text class="title" x="720" y="66" text-anchor="middle">Wall of Understanding</text>
+  <text class="subtitle" x="720" y="104" text-anchor="middle">SIGNAL maps UX responsibilities onto a common AI loop.</text>
 
-  <rect x="70" y="150" width="1300" height="190" rx="8" fill="#ffffff" stroke="#222" stroke-width="2"/>
-  <text class="label" x="110" y="192">SIGNAL layer</text>
-  <text class="small" x="110" y="222">What the experience must preserve for the user</text>
+  <rect x="72" y="145" width="1296" height="282" rx="10" fill="#ffffff" stroke="#222" stroke-width="2"/>
+  <text class="band-title" x="108" y="184">SIGNAL layer</text>
+  <text class="body" x="108" y="212">Each component sits above the stage where that responsibility must be preserved.</text>
 
-  <g transform="translate(320 185)">
-    <rect class="signal" x="0" y="0" width="125" height="86" rx="6"/>
-    <text class="label" x="62.5" y="35" text-anchor="middle">S</text>
-    <text class="tiny" x="62.5" y="62" text-anchor="middle">Semantics</text>
+  <g transform="translate(238 162)">
+    <rect class="signal" x="0" y="75" width="180" height="78" rx="7"/>
+    <text class="label" x="90" y="105" text-anchor="middle">S - Semantics</text>
+    <text class="small" x="90" y="130" text-anchor="middle">clear meaning</text>
 
-    <rect class="signal" x="145" y="0" width="125" height="86" rx="6"/>
-    <text class="label" x="207.5" y="35" text-anchor="middle">I</text>
-    <text class="tiny" x="207.5" y="62" text-anchor="middle">Intent</text>
+    <rect class="signal" x="0" y="165" width="180" height="78" rx="7"/>
+    <text class="label" x="90" y="195" text-anchor="middle">I - Intent</text>
+    <text class="small" x="90" y="220" text-anchor="middle">what user means</text>
 
-    <rect class="signal" x="290" y="0" width="125" height="86" rx="6"/>
-    <text class="label" x="352.5" y="35" text-anchor="middle">G</text>
-    <text class="tiny" x="352.5" y="62" text-anchor="middle">Grounding</text>
+    <rect class="signal" x="218" y="75" width="180" height="78" rx="7"/>
+    <text class="label" x="308" y="105" text-anchor="middle">G - Grounding</text>
+    <text class="small" x="308" y="130" text-anchor="middle">evidence + limits</text>
 
-    <rect class="signal" x="435" y="0" width="125" height="86" rx="6"/>
-    <text class="label" x="497.5" y="35" text-anchor="middle">N</text>
-    <text class="tiny" x="497.5" y="62" text-anchor="middle">Navigation</text>
+    <rect class="signal" x="218" y="165" width="180" height="78" rx="7"/>
+    <text class="label" x="308" y="195" text-anchor="middle">N - Navigation</text>
+    <text class="small" x="308" y="220" text-anchor="middle">state + path</text>
 
-    <rect class="signal" x="580" y="0" width="125" height="86" rx="6"/>
-    <text class="label" x="642.5" y="35" text-anchor="middle">A</text>
-    <text class="tiny" x="642.5" y="62" text-anchor="middle">Agency</text>
+    <rect class="signal" x="436" y="120" width="180" height="78" rx="7"/>
+    <text class="label" x="526" y="150" text-anchor="middle">A - Agency</text>
+    <text class="small" x="526" y="175" text-anchor="middle">control boundary</text>
 
-    <rect class="signal" x="725" y="0" width="125" height="86" rx="6"/>
-    <text class="label" x="787.5" y="35" text-anchor="middle">L</text>
-    <text class="tiny" x="787.5" y="62" text-anchor="middle">Load</text>
+    <rect class="signal-soft" x="654" y="75" width="180" height="78" rx="7"/>
+    <text class="label" x="744" y="105" text-anchor="middle">G - Grounding</text>
+    <text class="small" x="744" y="130" text-anchor="middle">result support</text>
+
+    <rect class="signal-soft" x="654" y="165" width="180" height="78" rx="7"/>
+    <text class="label" x="744" y="195" text-anchor="middle">A/N</text>
+    <text class="small" x="744" y="220" text-anchor="middle">scope + recovery</text>
+
+    <rect class="signal" x="872" y="120" width="180" height="78" rx="7"/>
+    <text class="label" x="962" y="150" text-anchor="middle">L - Load</text>
+    <text class="small" x="962" y="175" text-anchor="middle">low effort</text>
   </g>
 
-  <rect x="70" y="400" width="1300" height="150" rx="8" fill="#ffffff" stroke="#222" stroke-width="2"/>
-  <text class="label" x="110" y="442">Common AI flow</text>
-  <text class="small" x="110" y="472">The implementation can be prompt-only, RAG, tools, memory, workflows, MCP, or agents.</text>
+  <rect x="72" y="468" width="1296" height="174" rx="10" fill="#ffffff" stroke="#222" stroke-width="2"/>
+  <text class="band-title" x="108" y="508">Common AI flow</text>
+  <text class="body" x="108" y="536">Works for prompt-only systems, RAG, tools, memory, workflows, MCP, or agents.</text>
 
-  <g transform="translate(320 423)">
-    <rect class="flow" x="0" y="0" width="140" height="72" rx="6"/>
-    <text class="small" x="70" y="42" text-anchor="middle">Understand</text>
+  <g transform="translate(238 522)">
+    <rect class="stage" x="0" y="45" width="180" height="70" rx="7"/>
+    <text class="stage-text" x="90" y="88" text-anchor="middle">Understand</text>
 
-    <rect class="flow" x="180" y="0" width="140" height="72" rx="6"/>
-    <text class="small" x="250" y="42" text-anchor="middle">Reason</text>
+    <rect class="stage" x="218" y="45" width="180" height="70" rx="7"/>
+    <text class="stage-text" x="308" y="88" text-anchor="middle">Reason</text>
 
-    <rect class="flow" x="360" y="0" width="140" height="72" rx="6"/>
-    <text class="small" x="430" y="42" text-anchor="middle">Act</text>
+    <rect class="stage" x="436" y="45" width="180" height="70" rx="7"/>
+    <text class="stage-text" x="526" y="88" text-anchor="middle">Act</text>
 
-    <rect class="flow" x="540" y="0" width="140" height="72" rx="6"/>
-    <text class="small" x="610" y="42" text-anchor="middle">Validate</text>
+    <rect class="stage" x="654" y="45" width="180" height="70" rx="7"/>
+    <text class="stage-text" x="744" y="88" text-anchor="middle">Validate</text>
 
-    <rect class="flow" x="720" y="0" width="140" height="72" rx="6"/>
-    <text class="small" x="790" y="42" text-anchor="middle">Respond</text>
+    <rect class="stage" x="872" y="45" width="180" height="70" rx="7"/>
+    <text class="stage-text" x="962" y="88" text-anchor="middle">Respond</text>
 
-    <path class="line" d="M140 36 H176"/>
-    <path class="line" d="M320 36 H356"/>
-    <path class="line" d="M500 36 H536"/>
-    <path class="line" d="M680 36 H716"/>
+    <path class="line" d="M180 80 H214"/>
+    <path class="line" d="M398 80 H432"/>
+    <path class="line" d="M616 80 H650"/>
+    <path class="line" d="M834 80 H868"/>
   </g>
 
-  <path class="softline" d="M382 272 V420"/>
-  <path class="softline" d="M528 272 V420"/>
-  <path class="softline" d="M673 272 V420"/>
-  <path class="softline" d="M818 272 V420"/>
-  <path class="softline" d="M963 272 V420"/>
-  <path class="softline" d="M1108 272 V420"/>
+  <path class="down" d="M328 405 V562"/>
+  <path class="down" d="M546 405 V562"/>
+  <path class="down" d="M764 405 V562"/>
+  <path class="down" d="M982 405 V562"/>
+  <path class="down" d="M1200 405 V562"/>
 
-  <text class="tiny" x="455" y="366" text-anchor="middle">meaning + intent</text>
-  <text class="tiny" x="745" y="366" text-anchor="middle">evidence + state</text>
-  <text class="tiny" x="963" y="366" text-anchor="middle">control</text>
-  <text class="tiny" x="1110" y="366" text-anchor="middle">effort</text>
-
-  <g transform="translate(255 616)">
-    <rect class="value" x="0" y="0" width="930" height="72" rx="8"/>
-    <text class="label" x="465" y="34" text-anchor="middle">Useful AI behavior + visible user value</text>
-    <text class="small" x="465" y="58" text-anchor="middle">clear, grounded, proactive, controllable, and low effort</text>
+  <g transform="translate(255 700)">
+    <rect class="value" x="0" y="0" width="930" height="74" rx="8"/>
+    <text class="stage-text" x="465" y="33" text-anchor="middle">Useful AI behavior + visible user value</text>
+    <text class="body" x="465" y="58" text-anchor="middle">clear, grounded, proactive, controllable, and low effort</text>
   </g>
 
-  <path class="line" d="M720 550 V610"/>
+  <path class="line" d="M720 642 V694"/>
 </svg>
