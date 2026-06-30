@@ -90,7 +90,45 @@ Users have limited attention and working memory. Unnecessary questions increase 
 
 ---
 
-## 3. Confidence Split
+## 3. Context Recovery
+
+### Problem
+
+The user's latest message does not clearly connect to the previous turn. The assistant may ask the user to repeat context that already exists in the conversation, active state, visible environment, or recent tool results.
+
+### Technique
+
+Before asking a broad clarification question, check earlier conversation, active task, selected file, open screen, recent tool output, and current environment. If there is a likely reference, make that interpretation explicit and proceed only when the action is safe. Ask a focused question when ambiguity changes the action, cost, risk, or consequence.
+
+### User effect
+
+Reduces typing effort and preserves conversational continuity. The user does not have to restate the whole situation just because the latest message was compressed or indirect.
+
+### Bad
+
+```text
+What do you mean?
+```
+
+### Better
+
+```text
+I am treating "that one" as the deployment error from earlier. I will use that interpretation unless you meant a different item.
+```
+
+### Theory behind it
+
+Conversation depends on shared context. Users often refer to earlier topics, visible state, or something happening now without naming it again.
+
+### References
+
+- Conversational grounding
+- Context continuity
+- Cognitive load theory
+
+---
+
+## 4. Confidence Split
 
 ### Problem
 
@@ -130,7 +168,7 @@ Trust depends on calibrated confidence. Users need to know what the answer is ba
 
 ---
 
-## 4. Visible Work Trace
+## 5. Visible Work Trace
 
 ### Problem
 
@@ -170,7 +208,7 @@ Silence in conversation is meaningful. In a language interface, silence can feel
 
 ---
 
-## 5. Approval Boundary
+## 6. Approval Boundary
 
 ### Problem
 
@@ -208,7 +246,7 @@ Automation trust depends on appropriate reliance and visible control boundaries.
 
 ---
 
-## 6. Action Receipt
+## 7. Action Receipt
 
 ### Problem
 
@@ -248,7 +286,7 @@ Users need closure after state changes. Receipts reduce ambiguity and support re
 
 ---
 
-## 7. Recovery Path
+## 8. Recovery Path
 
 ### Problem
 
@@ -287,7 +325,7 @@ Failure is less stressful when the user has a next step.
 
 ---
 
-## 8. Cognitive Compression
+## 9. Cognitive Compression
 
 ### Problem
 
@@ -327,7 +365,7 @@ Working memory is limited. The interface should reduce unnecessary processing.
 
 ---
 
-## 9. Constraint Preservation
+## 10. Constraint Preservation
 
 ### Problem
 
@@ -365,7 +403,7 @@ Users trust systems more when important constraints remain visible.
 
 ---
 
-## 10. Human Repair
+## 11. Human Repair
 
 ### Problem
 

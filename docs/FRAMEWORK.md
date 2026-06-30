@@ -14,6 +14,9 @@ Use [`../README.md`](../README.md) as the public entry point, [`RESEARCH_AND_BEN
 
 - [Framework scope](#framework-scope)
 - [Core thesis](#core-thesis)
+- [Canonical concept map](#canonical-concept-map)
+- [Wall of Understanding](#wall-of-understanding)
+- [How to apply SIGNAL](#how-to-apply-signal)
 - [The six SIGNAL pillars](#the-six-signal-pillars)
 - [Pillar details](#pillar-details)
 - [Response decision flow](#response-decision-flow)
@@ -80,6 +83,85 @@ Good signals create trust, speed, safety, and clarity.
 
 ---
 
+## Canonical concept map
+
+SIGNAL uses product-facing names, but each dimension is grounded in established concepts from Human-AI Interaction, linguistics, cognitive psychology, information retrieval, and agent research.
+
+| SIGNAL | Product-facing role | Canonical concepts | Primary references | Framework translation |
+|---|---|---|---|---|
+| **Semantics** | Make meaning clear. | Plain language, pragmatics, conversational maxims, semantic clarity | Grice 1975; ISO 24495-1; W3C COGA | Use literal, domain-appropriate language; avoid decorative helpfulness and semantic drift. |
+| **Intent** | Understand what the user is trying to do. | Speech acts, indirect speech acts, intent recognition, query rewriting | Searle 1975; LLM UX intent taxonomy; MaFeRw | Treat short, vague, indirect, or corrected messages as pragmatic signals, not malformed prompts. |
+| **Grounding** | Show what the answer or action is based on. | Groundedness, retrieval-augmented generation, calibration, source attribution | Lewis et al. 2020; HELM; Microsoft HAX | Separate facts, assumptions, inferences, sources, uncertainty, and tool evidence. |
+| **Navigation** | Keep the user oriented. | Visibility of system status, conversational grounding, progress feedback, state tracking | Nielsen; Clark and Brennan 1991; Myers 1985 | Show state, progress, decisions, recovery paths, and next best action. |
+| **Agency** | Keep the user in control. | Human-AI control, oversight, approval gates, reversibility, correction | Amershi et al. 2019; Microsoft HAX; NIST AI RMF | Gate risky actions, expose consequences, capture corrections, and make reversibility visible. |
+| **Load** | Reduce user effort. | Cognitive load, working memory, cognitive accessibility, progressive disclosure | Sweller 1988; Cowan 2001; W3C COGA | Reduce reading, typing, memory, and decision burden without hiding important risk. |
+
+SIGNAL is not inventing these concepts from scratch. It organizes them into a practical framework for teams building AI experiences through language.
+
+---
+
+## Wall of Understanding
+
+SIGNAL does not prescribe an internal agent architecture.
+
+It defines the UX layer between uncharted user input and useful AI behavior. This layer exists whether the product uses RAG, tools, memory, workflows, agents, MCP, databases, or only prompting.
+
+User input is uncharted because people communicate with incomplete context, vague references, emotional shortcuts, metaphors, indirect requests, corrections, and references to earlier or current context.
+
+SIGNAL is the wall of understanding that converts those signals into proactive behavior, visible value, and precise communication about what the user expects.
+
+```mermaid
+flowchart LR
+    U["Uncharted user input<br/>messy, incomplete, indirect, contextual"] <--> W["Wall of Understanding<br/>SIGNAL"]
+
+    W --- S["Semantics<br/>meaning"]
+    W --- I["Intent<br/>goal"]
+    W --- G["Grounding<br/>evidence"]
+    W --- N["Navigation<br/>state"]
+    W --- A["Agency<br/>control"]
+    W --- L["Load<br/>effort"]
+
+    W --> B["Useful AI behavior<br/>clear, grounded, proactive, controllable"]
+    B --> V["Visible user value"]
+```
+
+This is not a workflow diagram or sequence diagram.
+
+It is a conceptual allocation model: it shows which kinds of understanding must exist between raw user language and valuable AI behavior.
+
+---
+
+## How to apply SIGNAL
+
+SIGNAL is a framework: a prefabricated set of guidelines for building applications, managing product work, and solving conversation UX problems.
+
+Use it in seven steps:
+
+1. **Define the AI experience.**
+   Name the agent, bot, assistant, workflow, or interaction being designed. Define the value it should deliver.
+
+2. **Map the user signals.**
+   Collect real user messages, missing context, indirect requests, corrections, emotional cues, domain terms, and tool-trigger phrases.
+
+3. **Apply the six dimensions.**
+   Review the experience through Semantics, Intent, Grounding, Navigation, Agency, and Load.
+
+4. **Choose response patterns.**
+   Select reusable patterns such as Brief Mirror, Context Recovery, Confidence Split, Visible Work Trace, Action Boundary, Action Receipt, and Retrieval Overlap.
+
+5. **Define evaluation criteria.**
+   Turn the relevant SIGNAL criteria into checks for prompts, tools, retrieval, memory, workflows, and user-facing responses.
+
+6. **Review real conversations.**
+   Use transcripts or product flows to identify where the system loses meaning, context, grounding, state, user control, or value.
+
+7. **Convert failures into product changes.**
+   Update prompts, instructions, retrieval coverage, memory rules, tool boundaries, UI copy, workflows, or escalation paths.
+
+A useful SIGNAL review should produce concrete artifacts: rewritten responses, clearer action boundaries, better tool behavior, improved retrieval overlap, evaluation checks, and visible value receipts.
+
+---
+
 ## The six SIGNAL pillars
 
 | Letter | Pillar | Primary UX failure if ignored |
@@ -88,8 +170,8 @@ Good signals create trust, speed, safety, and clarity.
 | **I** | **Intent** | The system answers the wrong task or over-asks. |
 | **G** | **Grounding** | The system sounds certain without evidence or hides uncertainty. |
 | **N** | **Navigation** | The user loses state, progress, or next action. |
-| **A** | **Agency** | The system takes or implies action without enough user control. |
-| **L** | **Load** | The system demands too much reading, typing, memory, or decision effort. |
+| **A** | **Agency** | The system takes technical action, uses profile data, stores preferences, changes state, or creates consequences without enough user control. |
+| **L** | **Load** | The system leaves the user alone with unnecessary mental work, unclear context, semantic drift, or unsupported decisions. |
 
 ---
 
@@ -380,7 +462,7 @@ In chat systems, user effort includes reading, typing, remembering, comparing op
 
 ### Core question
 
-> Does the system reduce cognitive, emotional, and mechanical effort?
+> Does the system reduce mental load by summarizing complex facts, keeping context clear, preserving semantic consistency, and avoiding unsupported user decision burden?
 
 ### Design goals
 
@@ -389,8 +471,12 @@ In chat systems, user effort includes reading, typing, remembering, comparing op
 - Avoid walls of text.
 - Reduce typing burden.
 - Offer defaults.
+- Summarize complex facts.
+- Keep context visible.
+- Preserve consistent terminology.
 - Use progressive disclosure.
 - Avoid overloading the user with options.
+- Recommend a usable path when the user lacks enough context to decide alone.
 - Keep critical steps visible.
 
 ### Good behavior
@@ -759,6 +845,7 @@ Suggested score:
 | **C11** | Cognitive accessibility | Load | Language should work for tired, anxious, distracted, or non-expert users. | `1. Open DNS. 2. Edit DMARC. 3. Change p=none to quarantine.` | `Change the DMARC policy in DNS.` | `Modify the declarative domain authentication policy mechanism.` |
 | **C12** | User control | Agency | The user should know what will be done and what needs approval. | `I will draft it. I will not send it.` | `I can prepare it for sending.` | `I sent it to the client.` |
 | **C13** | Context continuity | Navigation | The system should preserve relevant prior decisions. | `Keeping the previous premise: SIGNAL is not a benchmark.` | `Based on what we discussed...` | Asks again about something already decided. |
+| **C13a** | Context recovery | Intent / Navigation | If the latest message does not connect clearly to the previous turn, the system should check earlier conversation, active state, visible environment, or recent tool results before asking the user to repeat. | `I am treating this as referring to the deployment error from earlier.` | Asks one focused clarification after checking likely context. | `What do you mean?` |
 | **C14** | Voice consistency | Semantics | Tone should be stable and appropriate to the domain. | Security: direct, operational, no jokes. | Generic neutral tone. | Uses humor during a serious incident. |
 | **C15** | Next step | Navigation | Workflow responses should indicate continuity. | `Next: turn the criteria into an issue template.` | `We can improve this later.` | `Hope this helps.` |
 | **C16** | Explanation vs execution | Agency | Differentiate explaining, suggesting, drafting, and acting. | `Recommendation: create CONTRIBUTING.md. Execution: not created yet.` | `It would be good to create CONTRIBUTING.md.` | `All set`, without doing anything. |
@@ -906,7 +993,40 @@ Never use assumption labeling as a way to bypass approval for risky actions.
 </details>
 
 <details open>
-<summary><strong>Pattern 04 — Confidence Split</strong></summary>
+<summary><strong>Pattern 04 — Context Recovery</strong></summary>
+
+### Problem
+
+The latest user message does not attach cleanly to the immediately previous turn.
+
+The user may be referring to earlier conversation, active state, visible environment, a selected file, a recent tool result, or something happening right now.
+
+### Solution
+
+Check available context before asking the user to restate.
+
+If there is a likely referent, make the interpretation visible and proceed only when the action is safe. Ask a focused clarification when ambiguity changes action, cost, risk, or consequences.
+
+### Template
+
+```text
+I am treating this as referring to [likely context]. I will use that interpretation unless you meant something else.
+```
+
+### Example
+
+```text
+I am treating "that one" as the deployment error from earlier. I will use that interpretation unless you meant a different item.
+```
+
+### Risk
+
+Context recovery should not become overconfident mind reading. Risky, external, irreversible, or state-changing actions still require confirmation.
+
+</details>
+
+<details open>
+<summary><strong>Pattern 05 — Confidence Split</strong></summary>
 
 ### Problem
 
@@ -955,7 +1075,7 @@ Can be too heavy for trivial answers.
 </details>
 
 <details open>
-<summary><strong>Pattern 05 — Next Best Action</strong></summary>
+<summary><strong>Pattern 06 — Next Best Action</strong></summary>
 
 ### Problem
 
@@ -984,7 +1104,7 @@ A next action should not be added when the user asked for final copy or a finish
 </details>
 
 <details open>
-<summary><strong>Pattern 06 — Action Boundary</strong></summary>
+<summary><strong>Pattern 07 — Action Boundary</strong></summary>
 
 ### Problem
 
@@ -1016,7 +1136,7 @@ Excessive boundary labeling can make low-risk conversations feel rigid.
 </details>
 
 <details open>
-<summary><strong>Pattern 07 — Action Receipt</strong></summary>
+<summary><strong>Pattern 08 — Action Receipt</strong></summary>
 
 ### Problem
 
@@ -1049,7 +1169,7 @@ Receipts must be truthful. Do not imply an action was completed if it was only p
 </details>
 
 <details open>
-<summary><strong>Pattern 08 — Correction Capture</strong></summary>
+<summary><strong>Pattern 09 — Correction Capture</strong></summary>
 
 ### Problem
 
@@ -1078,7 +1198,7 @@ Do not store sensitive or personal corrections beyond the necessary scope.
 </details>
 
 <details open>
-<summary><strong>Pattern 09 — Progressive Disclosure</strong></summary>
+<summary><strong>Pattern 10 — Progressive Disclosure</strong></summary>
 
 ### Problem
 
@@ -1114,7 +1234,7 @@ If critical warnings are hidden too deep, users may miss them.
 </details>
 
 <details open>
-<summary><strong>Pattern 10 — Tool Transparency</strong></summary>
+<summary><strong>Pattern 11 — Tool Transparency</strong></summary>
 
 ### Problem
 
@@ -1143,7 +1263,7 @@ Too little transparency can make the system feel magical or suspicious.
 </details>
 
 <details open>
-<summary><strong>Pattern 11 — Safe Default</strong></summary>
+<summary><strong>Pattern 12 — Safe Default</strong></summary>
 
 ### Problem
 
@@ -1166,7 +1286,7 @@ A safe default must still be visible as an assumption if it shapes the output.
 </details>
 
 <details open>
-<summary><strong>Pattern 12 — State Snapshot</strong></summary>
+<summary><strong>Pattern 13 — State Snapshot</strong></summary>
 
 ### Problem
 
@@ -1198,7 +1318,7 @@ Do not expose private or sensitive state unnecessarily.
 </details>
 
 <details open>
-<summary><strong>Pattern 13 — Output Contract</strong></summary>
+<summary><strong>Pattern 14 — Output Contract</strong></summary>
 
 ### Problem
 
@@ -1231,7 +1351,7 @@ The output contract should not become another clarification loop.
 </details>
 
 <details open>
-<summary><strong>Pattern 14 — Friction Budget</strong></summary>
+<summary><strong>Pattern 15 — Friction Budget</strong></summary>
 
 ### Problem
 
@@ -1263,7 +1383,7 @@ Do not use friction reduction as a reason to hide important choices.
 
 
 <details open>
-<summary><strong>Pattern 15 — Pragmatic Intent Bridge</strong></summary>
+<summary><strong>Pattern 16 — Pragmatic Intent Bridge</strong></summary>
 
 ### Problem
 
@@ -1292,7 +1412,7 @@ Do not use pragmatic inference to execute risky, external, irreversible, or stat
 </details>
 
 <details open>
-<summary><strong>Pattern 16 — Capability Question as Soft Request</strong></summary>
+<summary><strong>Pattern 17 — Capability Question as Soft Request</strong></summary>
 
 ### Problem
 
@@ -1325,7 +1445,7 @@ A capability question may still be only a capability question. Use conversation 
 </details>
 
 <details open>
-<summary><strong>Pattern 17 — Idiom and Expression Resolution</strong></summary>
+<summary><strong>Pattern 18 — Idiom and Expression Resolution</strong></summary>
 
 ### Problem
 
@@ -1357,7 +1477,7 @@ If the expression is ambiguous or high-stakes, ask one focused question instead 
 
 
 <details open>
-<summary><strong>Pattern 18 — Retrieval Overlap Map</strong></summary>
+<summary><strong>Pattern 19 — Retrieval Overlap Map</strong></summary>
 
 ### Problem
 
@@ -1406,7 +1526,7 @@ Too many weak variants can reduce precision. Review retrieval logs and remove no
 </details>
 
 <details open>
-<summary><strong>Pattern 19 — Source-first Answer</strong></summary>
+<summary><strong>Pattern 20 — Source-first Answer</strong></summary>
 
 ### Problem
 
@@ -1439,7 +1559,7 @@ Do not pretend retrieval happened. Source-first requires actual source availabil
 </details>
 
 <details open>
-<summary><strong>Pattern 20 — Parametric Knowledge Gate</strong></summary>
+<summary><strong>Pattern 21 — Parametric Knowledge Gate</strong></summary>
 
 ### Problem
 
@@ -1472,7 +1592,7 @@ Overusing the gate can make the assistant feel obstructive. Apply it where sourc
 </details>
 
 <details open>
-<summary><strong>Pattern 21 — High-stakes No-drift</strong></summary>
+<summary><strong>Pattern 22 — High-stakes No-drift</strong></summary>
 
 ### Problem
 
@@ -1495,7 +1615,7 @@ The system should still provide safe emergency or escalation instructions when p
 </details>
 
 <details open>
-<summary><strong>Pattern 22 — Persona Guardrail</strong></summary>
+<summary><strong>Pattern 23 — Persona Guardrail</strong></summary>
 
 ### Problem
 

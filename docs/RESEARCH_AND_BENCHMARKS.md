@@ -54,6 +54,37 @@ It sits between these areas:
 
 ---
 
+## Canonical concept map
+
+SIGNAL should use product-facing language in the README, but its major concepts should map to canonical names already used in research and practice.
+
+This keeps the framework practical without making it look like a list of personal opinions.
+
+| SIGNAL term | Canonical community concepts | Core references | Applied SIGNAL interpretation |
+|---|---|---|---|
+| **Semantics** | Plain language, pragmatics, conversational maxims, semantic clarity | Grice 1975; ISO 24495-1 Plain Language; W3C COGA | The assistant should make meaning easy to parse, relevant to the domain, and stable across turns. |
+| **Intent** | Speech acts, indirect speech acts, intent recognition, query rewriting, conversational ellipsis | Searle 1975; Understanding User Experience in LLM Interactions; MaFeRw | User messages are pragmatic actions, not just literal strings. The system should infer likely intent while keeping the inference correctable. |
+| **Grounding** | Groundedness, retrieval-augmented generation, calibration, source attribution, tool grounding | Retrieval-Augmented Generation; HELM; Microsoft HAX; ReAct; Toolformer | The system should show what its answer or action depends on: source, tool result, assumption, inference, or uncertainty. |
+| **Navigation** | Visibility of system status, conversational grounding, progress feedback, state tracking, recovery path | Nielsen response-time heuristics; Clark and Brennan 1991; Myers 1985 | The user should know where the interaction is, what changed, what is still pending, and what can happen next. |
+| **Agency** | Human-AI control, appropriate reliance, oversight, approval gates, reversibility, correction | Amershi et al. 2019; Microsoft HAX; NIST AI RMF | The system should not silently create consequences. It should expose action boundaries, ask for approval when needed, and preserve user correction. |
+| **Load** | Cognitive load, working memory, cognitive accessibility, progressive disclosure, decision effort | Sweller 1988; Cowan 2001; W3C COGA; Length-Controlled AlpacaEval | The system should reduce reading, typing, memory, comparison, and unsupported decision burden without hiding important information. |
+| **Wall of Understanding** | Common ground, conversational grounding, pragmatic inference, context construction | Grice 1975; Clark and Brennan 1991; Speech act theory | SIGNAL is the user-facing understanding layer between uncharted language and useful AI behavior, not a diagram of internal agent implementation. |
+| **Context Recovery** | Conversational grounding, anaphora, ellipsis, context continuity, query rewriting | Clark and Brennan 1991; MaFeRw; query rewriting literature | If a turn does not attach to the immediate previous message, the system should check earlier conversation, active state, visible environment, and recent tool results before asking the user to repeat. |
+| **Retrieval Overlap** | Vocabulary mismatch, query expansion, HyDE, Query2doc, multi-view RAG | Vocabulary mismatch; Query expansion; HyDE; Query2doc | The product should bridge between how users name things and how sources, tools, policies, schemas, or experts name them. |
+| **Visible Work Trace** | Visibility of system status, progress indicators, perceived performance, operational transparency | Nielsen; Myers 1985; perceived performance research; HAX | Long or agentic turns should expose concise operational state without leaking private reasoning or pretending work happened. |
+
+### Naming rule
+
+SIGNAL names should be useful for product teams. Research names should remain visible enough that contributors can connect each principle to the broader community.
+
+Use this pattern when adding a new major SIGNAL concept:
+
+```md
+SIGNAL name -> canonical concept -> primary reference -> product translation -> criteria/patterns affected
+```
+
+---
+
 ## Adjacent frameworks and what SIGNAL extracts
 
 <table>
