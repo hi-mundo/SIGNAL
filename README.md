@@ -1,8 +1,10 @@
 # SIGNAL
 
-[Awesome] [MIT License] [PRs Welcome] [Critics Pleased]
+[Awesome](https://github.com/sindresorhus/awesome#readme) [MIT License](LICENSE) [PRs Welcome] [Critics Pleased]
 
-![SIGNAL cover](docs/assets/signal-cover.svg)
+<p align="center">
+  <img src="docs/assets/signal-cover.svg" alt="SIGNAL: A UX framework for language-based AI systems" width="100%">
+</p>
 
 > A signal is a gesture, token, or action used to transmit information, communicate a command, or serve as a warning.
 
@@ -33,7 +35,7 @@ SIGNAL designs the communication layer between messy human language and useful A
 | Letter | Dimension | Product question |
 |---|---|---|
 | **S** | **Semantics** | Does the system create clear meaning? |
-| **I** | **Intent** | Does it understand what the user is trying to do, not only what the user explicitly asked? |
+| **I** | **Intent** | Does it understand what the user means, not only what the user explicitly asked? |
 | **G** | **Grounding** | Does it show what the answer or action is based on? |
 | **N** | **Navigation** | Does it keep the user oriented through context, state, progress, and next steps? |
 | **A** | **Agency** | Does it ask before taking technical actions, using profile data, storing preferences, changing state, or creating consequences for the user? |
@@ -47,12 +49,12 @@ SIGNAL uses product-facing names, but each dimension is grounded in established 
 
 | SIGNAL | Canonical concepts | Primary references |
 |---|---|---|
-| **Semantics** | Plain language, pragmatics, conversational maxims, semantic clarity | Grice 1975; ISO 24495-1; W3C COGA |
-| **Intent** | Speech acts, indirect speech acts, intent recognition, query rewriting | Searle 1975; LLM UX intent taxonomy; MaFeRw |
-| **Grounding** | Groundedness, retrieval-augmented generation, calibration, source attribution | Lewis et al. 2020; HELM; Microsoft HAX |
-| **Navigation** | Visibility of system status, conversational grounding, progress feedback, state tracking | Nielsen; Clark and Brennan 1991; Myers 1985 |
-| **Agency** | Human-AI control, oversight, approval gates, reversibility, correction | Amershi et al. 2019; Microsoft HAX; NIST AI RMF |
-| **Load** | Cognitive load, working memory, cognitive accessibility, progressive disclosure | Sweller 1988; Cowan 2001; W3C COGA |
+| **Semantics** | [Plain language](https://www.iso.org/standard/78907.html), [pragmatics](https://en.wikipedia.org/wiki/Pragmatics), conversational maxims, semantic clarity | Grice 1975; [ISO 24495-1](https://www.iso.org/standard/78907.html); [W3C COGA](https://www.w3.org/TR/coga-usable/) |
+| **Intent** | [Speech acts](https://en.wikipedia.org/wiki/Speech_act), indirect speech acts, intent recognition, [query rewriting](https://arxiv.org/abs/2408.17072) | Searle 1975; [LLM UX intent taxonomy](https://arxiv.org/abs/2401.08329); [MaFeRw](https://arxiv.org/abs/2408.17072) |
+| **Grounding** | Groundedness, [retrieval-augmented generation](https://arxiv.org/abs/2005.11401), calibration, source attribution | [Lewis et al. 2020](https://arxiv.org/abs/2005.11401); [HELM](https://arxiv.org/abs/2211.09110); [Microsoft HAX](https://www.microsoft.com/en-us/haxtoolkit/library/) |
+| **Navigation** | Visibility of system status, conversational grounding, progress feedback, state tracking | [Nielsen](https://www.nngroup.com/articles/response-times-3-important-limits/); Clark and Brennan 1991; [Myers 1985](https://doi.org/10.1145/317456.317459) |
+| **Agency** | Human-AI control, oversight, approval gates, reversibility, correction | [Amershi et al. 2019](https://www.microsoft.com/en-us/research/publication/guidelines-for-human-ai-interaction/); [Microsoft HAX](https://www.microsoft.com/en-us/haxtoolkit/library/); [NIST AI RMF](https://airc.nist.gov/airmf-resources/airmf/) |
+| **Load** | [Cognitive load](https://doi.org/10.1016/0364-0213(88)90023-7), working memory, cognitive accessibility, progressive disclosure | [Sweller 1988](https://doi.org/10.1016/0364-0213(88)90023-7); [Cowan 2001](https://doi.org/10.1017/S0140525X01003922); [W3C COGA](https://www.w3.org/TR/coga-usable/) |
 
 SIGNAL is not inventing these concepts from scratch. It organizes them into a practical framework for teams building AI experiences through language.
 
@@ -62,26 +64,41 @@ SIGNAL is not inventing these concepts from scratch. It organizes them into a pr
 
 SIGNAL does not explain how an agent is implemented internally.
 
-It explains how user and context information becomes proactive behavior, visible value, and precise communication about what the user expects, regardless of whether the architecture uses RAG, tools, memory, workflows, agents, MCP, databases, or only prompting.
+It explains how SIGNAL components sit on top of a common AI flow and turn user/context information into proactive behavior, visible value, and precise communication about what the user expects.
+
+The implementation can use RAG, tools, memory, workflows, agents, MCP, databases, or only prompting. The UX responsibilities stay the same.
 
 ```mermaid
-flowchart LR
-    U["Uncharted user input<br/>messy, incomplete, indirect, contextual"] <--> W["Wall of Understanding<br/>SIGNAL"]
+flowchart TB
+    subgraph L["SIGNAL layer: Wall of Understanding"]
+        direction LR
+        S["S<br/>Semantics"] --- I["I<br/>Intent"] --- G["G<br/>Grounding"] --- N["N<br/>Navigation"] --- A["A<br/>Agency"] --- LD["L<br/>Load"]
+    end
 
-    W --- S["Semantics<br/>meaning"]
-    W --- I["Intent<br/>goal"]
-    W --- G["Grounding<br/>evidence"]
-    W --- N["Navigation<br/>state"]
-    W --- A["Agency<br/>control"]
-    W --- L["Load<br/>effort"]
+    subgraph F["Common AI flow"]
+        direction LR
+        U["User / Context"] --> UN["Understand"]
+        UN --> R["Reason"]
+        R --> AC["Act"]
+        AC --> V["Validate"]
+        V --> RP["Respond"]
+        RP --> U
+    end
 
-    W --> B["Useful AI behavior<br/>clear, grounded, proactive, controllable"]
-    B --> V["Visible user value"]
+    S -.-> UN
+    I -.-> UN
+    G -.-> R
+    N -.-> R
+    A -.-> AC
+    G -.-> V
+    A -.-> V
+    N -.-> V
+    LD -.-> RP
 ```
 
-This is not a workflow. It is a conceptual allocation model.
+This is not an internal architecture diagram. It is a reusable allocation model.
 
-SIGNAL shows which kinds of understanding must exist between raw user language and valuable AI behavior.
+SIGNAL shows what each part of a common AI loop must preserve for the user experience to work.
 
 ---
 
@@ -114,30 +131,51 @@ If the user says something that does not clearly connect to the last message, th
 
 ## How to apply SIGNAL
 
-SIGNAL is a framework: a prefabricated set of guidelines for building applications, managing product work, and solving conversation UX problems.
+SIGNAL can be applied to any prompt engineering, agent, bot, assistant, workflow, or AI product by mapping its communication UX to a common AI loop.
 
-Use it in seven steps:
+The loop can change by architecture, but most AI experiences contain the same product-facing stages:
 
-1. **Define the AI experience**
-   Describe the user, domain, risk level, expected value, and what the AI is allowed to do.
+```mermaid
+flowchart LR
+    U["User / Context"] --> A["Understand"]
+    A --> B["Reason"]
+    B --> C["Act"]
+    C --> D["Validate"]
+    D --> E["Respond"]
+    E --> U
+```
 
-2. **Map the user signals**
-   Identify the language users actually use: short messages, vague references, metaphors, idioms, frustration, corrections, missing context, and indirect requests.
+SIGNAL defines what each stage must preserve.
 
-3. **Apply the six dimensions**
-   Review the experience through Semantics, Intent, Grounding, Navigation, Agency, and Load.
+| AI loop stage | SIGNAL responsibility | What belongs here |
+|---|---|---|
+| **Understand** | **Semantics + Intent** | Translate messy user language into clear meaning and likely goal. Handle vague references, metaphors, idioms, corrections, missing context, and indirect requests. |
+| **Reason** | **Grounding + Navigation** | Decide what the answer or action should be based on, what evidence is available, what state matters, what remains uncertain, and what path should be followed. |
+| **Act** | **Agency** | Use tools, memory, workflows, profile data, databases, or external systems only inside clear user-control boundaries. Ask before actions that create consequences. |
+| **Validate** | **Grounding + Agency + Navigation** | Check whether the result is supported, whether the action stayed within scope, whether anything failed, and whether the user needs a recovery path or approval. |
+| **Respond** | **Load** | Communicate the result with the lowest useful cognitive effort: clear summary, visible value, relevant evidence, next step, and no unnecessary reading or typing burden. |
 
-4. **Choose response patterns**
-   Select reusable patterns such as Brief Mirror, Context Recovery, Confidence Split, Action Boundary, Action Receipt, Progressive Disclosure, and Tool Transparency.
+This makes SIGNAL reusable across architectures.
 
-5. **Define evaluation criteria**
-   Turn SIGNAL dimensions into concrete checks for prompts, tools, retrieval, memory, workflows, and user-facing responses.
+It does not matter whether the system is only a prompt, a RAG assistant, a tool-using agent, an MCP workflow, a database-backed bot, or a multi-agent system.
 
-6. **Review real conversations**
-   Compare what users meant, what the AI inferred, what it did, what it exposed, and what value the user could see.
+The implementation may change. The UX responsibilities remain the same:
 
-7. **Convert failures into product changes**
-   A SIGNAL failure should become a product decision: better wording, better retrieval, clearer state, safer approval, lower user effort, or a stronger action boundary.
+```text
+Understand -> preserve meaning and intent.
+Reason -> preserve evidence, uncertainty, and state.
+Act -> preserve user control.
+Validate -> preserve correctness, scope, and recovery.
+Respond -> preserve clarity, value, and low effort.
+```
+
+Use it in five steps:
+
+1. Map the product's AI behavior to the loop.
+2. Assign SIGNAL responsibilities to each stage.
+3. Choose patterns for the stages that are failing.
+4. Define checks for prompts, tools, retrieval, memory, workflows, and responses.
+5. Convert failures into product changes: better wording, better retrieval, clearer state, safer approval, lower user effort, or a stronger action boundary.
 
 The output of a SIGNAL review should be concrete: rewritten responses, clearer action boundaries, better tool behavior, improved retrieval overlap, evaluation checks, and visible value receipts.
 

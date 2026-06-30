@@ -165,7 +165,7 @@ Semantic Retrieval Overlap connects directly to the SIGNAL pillars:
 | SIGNAL pillar | Relationship |
 |---|---|
 | **Semantics** | Maps informal expressions to canonical concepts. |
-| **Intent** | Detects what the user is trying to do, not only what they literally wrote. |
+| **Intent** | Detects what the user means, not only what they literally wrote. |
 | **Grounding** | Prioritizes local evidence over generic model memory. |
 | **Navigation** | Routes the user to the right tool, state, protocol, or next action. |
 | **Agency** | Prevents unsafe action by mapping triggers to approval gates. |
