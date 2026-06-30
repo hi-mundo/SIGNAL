@@ -70,33 +70,9 @@ It explains how SIGNAL components sit on top of a common AI flow and turn user/c
 
 The implementation can use RAG, tools, memory, workflows, agents, MCP, databases, or only prompting. The UX responsibilities stay the same.
 
-```mermaid
-flowchart TB
-    subgraph L["SIGNAL layer: Wall of Understanding"]
-        direction LR
-        S["S<br/>Semantics"] --- I["I<br/>Intent"] --- G["G<br/>Grounding"] --- N["N<br/>Navigation"] --- A["A<br/>Agency"] --- LD["L<br/>Load"]
-    end
-
-    subgraph F["Common AI flow"]
-        direction LR
-        U["User / Context"] --> UN["Understand"]
-        UN --> R["Reason"]
-        R --> AC["Act"]
-        AC --> V["Validate"]
-        V --> RP["Respond"]
-        RP --> U
-    end
-
-    S -.-> UN
-    I -.-> UN
-    G -.-> R
-    N -.-> R
-    A -.-> AC
-    G -.-> V
-    A -.-> V
-    N -.-> V
-    LD -.-> RP
-```
+<p align="center">
+  <img src="docs/assets/wall-of-understanding.svg" alt="SIGNAL Wall of Understanding over a common AI flow" width="100%">
+</p>
 
 This is not an internal architecture diagram. It is a reusable allocation model.
 
@@ -110,13 +86,19 @@ AI conversation UX is not only about producing an answer with cosmetic quality, 
 
 A good AI experience makes the AI context closer to what the user is trying to communicate and what the user actually needs.
 
-It should understand:
+It should divide understanding into reactive and proactive responsibilities.
+
+Reactive understanding:
 
 - the current turn;
-- what the system is doing actively and passively;
-- what context helps answer the user;
 - what the user is uncertain about;
-- what the AI needs from the user;
+- what context helps answer the user;
+- what the AI needs from the user now.
+
+Proactive understanding:
+
+- what the system is doing actively and passively;
+- what may become relevant from earlier context;
 - what may cost, risk, or create consequences for the user.
 
 It should communicate:

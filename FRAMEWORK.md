@@ -104,33 +104,7 @@ It defines how SIGNAL components sit on top of a common AI flow and turn unchart
 
 User input is uncharted because people communicate with incomplete context, vague references, emotional shortcuts, metaphors, indirect requests, corrections, and references to earlier or current context.
 
-```mermaid
-flowchart TB
-    subgraph L["SIGNAL layer: Wall of Understanding"]
-        direction LR
-        S["S<br/>Semantics"] --- I["I<br/>Intent"] --- G["G<br/>Grounding"] --- N["N<br/>Navigation"] --- A["A<br/>Agency"] --- LD["L<br/>Load"]
-    end
-
-    subgraph F["Common AI flow"]
-        direction LR
-        U["User / Context"] --> UN["Understand"]
-        UN --> R["Reason"]
-        R --> AC["Act"]
-        AC --> V["Validate"]
-        V --> RP["Respond"]
-        RP --> U
-    end
-
-    S -.-> UN
-    I -.-> UN
-    G -.-> R
-    N -.-> R
-    A -.-> AC
-    G -.-> V
-    A -.-> V
-    N -.-> V
-    LD -.-> RP
-```
+![SIGNAL Wall of Understanding](docs/assets/wall-of-understanding.svg)
 
 This is not an internal architecture diagram.
 
