@@ -1,6 +1,8 @@
-# SIGNAL
+# SIGNAL: A LLM user experience framework
 
-[Awesome](https://github.com/sindresorhus/awesome#readme) [MIT License](LICENSE) [PRs Welcome] [Critics Pleased]
+[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PR Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](https://github.com/hi-mundo/SIGNAL/pulls)
 
 <p align="center">
   <img src="docs/assets/signal-cover.svg" alt="SIGNAL: A UX framework for language-based AI systems" width="100%">
