@@ -1,4 +1,6 @@
-# SIGNAL: A LLM user experience framework
+# SIGNAL
+
+**Semantic Interaction Guidelines for Natural AI Language**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PR Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](https://github.com/hi-mundo/SIGNAL/pulls)
@@ -7,11 +9,24 @@
   <img src="docs/assets/signal-cover.svg" alt="SIGNAL: A UX framework for language-based AI systems" width="100%">
 </p>
 
+SIGNAL is a pattern framework for LLM UX, human-AI interaction, conversational AI, agent UX, semantic clarity, cognitive load, and, most importantly, user experience in LLM-based systems.
+
+| Status | Scope | Focus | Format | License |
+|---|---|---|---|---|
+| Draft / under active development | LLM-based systems | Communication UX | README-first framework | MIT |
+
+> [!WARNING]
+> SIGNAL is under active development.
+>
+> This framework was created after researching adjacent work in Human-AI Interaction, conversation design, cognitive accessibility, plain language, generative AI UX, AI governance, and LLM user research.
+>
+> These fields contain strong ideas, guidelines, and empirical studies, but I could not find a focused, open, README-first pattern framework dedicated mostly to user experience in LLM-based systems, especially the communication layer: semantics, intent, grounding, navigation, agency, and cognitive load.
+>
+> SIGNAL is not a claim of invention from zero.
+>
+> It is a consolidation attempt: a practical pattern language for a space that appears fragmented across research papers, product guidelines, accessibility notes, governance frameworks, benchmark culture, prompt engineering, and chatbot design practices.
+
 > A signal is a gesture, token, or action used to transmit information, communicate a command, or serve as a warning.
-
-**SIGNAL is a UX framework for language-based AI systems.**
-
-It helps teams design agents, bots, assistants, copilots, and AI products where conversation is the primary interface.
 
 When conversation is the interface, communication is the product experience.
 
