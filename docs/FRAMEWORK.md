@@ -104,7 +104,9 @@ SIGNAL is not inventing these concepts from scratch. It organizes them into a pr
 
 SIGNAL does not prescribe an internal agent architecture.
 
-It defines how SIGNAL components sit on top of a common AI flow and turn uncharted user input into useful AI behavior. This layer exists whether the product uses RAG, tools, memory, workflows, agents, MCP, databases, or only prompting.
+It defines how SIGNAL components can sit on top of an example agent loop and turn uncharted user input into useful AI behavior. This layer exists whether the product uses RAG, tools, memory, workflows, agents, MCP, databases, or only prompting.
+
+The loop shown below is only an illustrative example, like using `example.com` in documentation. It is not a SIGNAL recommendation, pattern, or required architecture.
 
 User input is uncharted because people communicate with incomplete context, vague references, emotional shortcuts, metaphors, indirect requests, corrections, and references to earlier or current context.
 
@@ -112,15 +114,15 @@ User input is uncharted because people communicate with incomplete context, vagu
 
 This is not an internal architecture diagram.
 
-It is a reusable allocation model: it shows what each part of a common AI loop must preserve for the user experience to work.
+It is a reusable allocation model: it shows what an AI experience must preserve for the user, regardless of the actual implementation flow.
 
 ---
 
 ## How to apply SIGNAL
 
-SIGNAL can be applied to any prompt engineering, agent, bot, assistant, workflow, or AI product by mapping its communication UX to a common AI loop.
+SIGNAL can be applied to any prompt engineering, agent, bot, assistant, workflow, or AI product by mapping its communication UX responsibilities to the product's actual behavior.
 
-The loop can change by architecture, but most AI experiences contain the same product-facing stages:
+The following loop is only an example used to explain the concept:
 
 ```mermaid
 flowchart LR
@@ -132,9 +134,9 @@ flowchart LR
     E --> U
 ```
 
-SIGNAL defines what each stage must preserve.
+In this example, SIGNAL defines what each stage must preserve.
 
-| AI loop stage | SIGNAL responsibility | What belongs here |
+| Example loop stage | SIGNAL responsibility | What belongs here |
 |---|---|---|
 | **Understand** | **Semantics + Intent** | Translate messy user language into clear meaning and likely goal. Handle vague references, metaphors, idioms, corrections, missing context, and indirect requests. |
 | **Reason** | **Grounding + Navigation** | Decide what the answer or action should be based on, what evidence is available, what state matters, what remains uncertain, and what path should be followed. |
@@ -142,7 +144,7 @@ SIGNAL defines what each stage must preserve.
 | **Validate** | **Grounding + Agency + Navigation** | Check whether the result is supported, whether the action stayed within scope, whether anything failed, and whether the user needs a recovery path or approval. |
 | **Respond** | **Load** | Communicate the result with the lowest useful cognitive effort: clear summary, visible value, relevant evidence, next step, and no unnecessary reading or typing burden. |
 
-This makes SIGNAL reusable across architectures.
+This makes SIGNAL reusable across architectures without requiring this specific loop.
 
 It does not matter whether the system is only a prompt, a RAG assistant, a tool-using agent, an MCP workflow, a database-backed bot, or a multi-agent system.
 

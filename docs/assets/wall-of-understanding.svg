@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
   <title id="title">SIGNAL Wall of Understanding</title>
-  <desc id="desc">A matrix showing SIGNAL responsibilities above each stage of a common AI flow.</desc>
+  <desc id="desc">A matrix showing SIGNAL responsibilities above each stage of an illustrative example agent loop.</desc>
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
       <path d="M2,2 L10,6 L2,10 Z" fill="#242424"/>
@@ -26,7 +26,7 @@
   <rect class="bg" width="1440" height="820"/>
 
   <text class="title" x="720" y="66" text-anchor="middle">Wall of Understanding</text>
-  <text class="subtitle" x="720" y="104" text-anchor="middle">SIGNAL maps UX responsibilities onto a common AI loop.</text>
+  <text class="subtitle" x="720" y="104" text-anchor="middle">SIGNAL maps UX responsibilities onto an illustrative example agent loop.</text>
 
   <rect x="72" y="145" width="1296" height="282" rx="10" fill="#ffffff" stroke="#222" stroke-width="2"/>
   <text class="band-title" x="108" y="184">SIGNAL layer</text>
@@ -67,8 +67,8 @@
   </g>
 
   <rect x="72" y="468" width="1296" height="174" rx="10" fill="#ffffff" stroke="#222" stroke-width="2"/>
-  <text class="band-title" x="108" y="508">Common AI flow</text>
-  <text class="body" x="108" y="536">Works for prompt-only systems, RAG, tools, memory, workflows, MCP, or agents.</text>
+  <text class="band-title" x="108" y="508">Example agent loop</text>
+  <text class="body" x="108" y="536">Illustrative only: not a recommended architecture, required pattern, or SIGNAL standard.</text>
 
   <g transform="translate(238 522)">
     <rect class="stage" x="0" y="45" width="180" height="70" rx="7"/>
