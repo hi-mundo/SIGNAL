@@ -170,11 +170,11 @@ SIGNAL is not inventing these concepts from scratch. It organizes them into a pr
 
 SIGNAL does not explain how an agent is implemented internally.
 
-It explains how SIGNAL can work as a wall of understanding between messy input and useful output.
+It explains how SIGNAL can work as a wall of understanding between the same real user input and two different outcomes.
 
-The wall reads what enters the interaction: user language, product state, prior context, available evidence, tool limits, risk, and consequence.
+Without a SIGNAL pattern, the system may turn the entered content into a normal response that is plausible but still generic, rigid, or costly for the user.
 
-Then it applies the SIGNAL dimensions to preserve what matters before the system answers or acts.
+With SIGNAL, the wall reads what enters the interaction: user language, product state, prior context, available evidence, tool limits, risk, and consequence. Then it applies the SIGNAL dimensions and the UX formula before the system answers or acts.
 
 The implementation can use RAG, tools, memory, workflows, agents, MCP, databases, or only prompting. The UX responsibility stays the same: increase perceived understanding, preserve agency, and reduce cognitive load.
 
