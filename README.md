@@ -89,9 +89,63 @@ w = contextual weight. Some factors matter more depending on the product,
 risk level, user state, and consequence of failure.
 ```
 
+[See a worked example of the model](#worked-example-remarcar-uma-consulta).
+
 A good LLM experience increases perceived understanding, preserves user agency, and reduces accumulated cognitive load.
 
 The system should not make the user repeatedly pay for unclear meaning, weak intent recognition, missing grounding, lost context, unnecessary decisions, repair work, or unresolved uncertainty.
+
+### Worked example: remarcar uma consulta
+
+User message:
+
+```text
+quero remarcar minha consulta
+```
+
+Weak experience:
+
+```text
+Claro. Para qual data voce quer remarcar?
+```
+
+The answer is not wrong, but the UX cost is high:
+
+```text
+P is low:
+  S is acceptable, but I is incomplete.
+  G is missing because the system does not show the current appointment.
+  N is weak because the user does not know what state the system found.
+
+A is unclear:
+  The user cannot tell whether the system is only asking,
+  checking availability, or preparing to change the booking.
+
+C is high:
+  Lr increases because the user has to parse the missing state.
+  D increases because the user must choose without seeing options.
+  R may increase if the system found the wrong appointment.
+  M increases because the user must remember appointment details.
+  U increases because consequences are unclear.
+```
+
+Better SIGNAL-style experience:
+
+```text
+Encontrei sua consulta atual com Dra. Ana em 12/07 as 14h.
+Posso buscar horarios disponiveis para remarcar.
+Antes de alterar qualquer coisa, vou apenas listar opcoes.
+
+Voce prefere manha, tarde ou o primeiro horario disponivel?
+```
+
+In the model:
+
+```text
+P increases because the system shows context, intent, grounding, and next step.
+A is preserved because no booking is changed without approval.
+C decreases because the user does not have to remember, repair, or guess the flow.
+```
 
 ---
 
