@@ -57,6 +57,42 @@ SIGNAL designs the communication layer between messy human language and useful A
 | **A** | **Agency** | Does it ask before taking technical actions, using profile data, storing preferences, changing state, or creating consequences for the user? |
 | **L** | **Load** | Does it reduce mental load by summarizing complex facts, keeping context clear, preserving semantic consistency, and avoiding unsupported user decision burden? |
 
+SIGNAL treats LLM UX as an interaction-cost model:
+
+```text
+SIGNAL UX Model
+
+P = Σ(wᵢ · xᵢ), where x ∈ {S, I, G, N}
+
+C = Σ(wⱼ · yⱼ), where y ∈ {Lr, D, R, M, U}
+
+UX = (P + wA · A) / (1 + C)
+
+Where:
+
+P = perceived understanding
+C = accumulated cognitive load
+A = agency preservation
+
+S = semantic clarity
+I = intent recognition
+G = grounding quality
+N = navigation clarity
+
+Lr = reading and parsing load
+D = decision burden
+R = repair cost
+M = memory burden
+U = uncertainty burden
+
+w = contextual weight. Some factors matter more depending on the product,
+risk level, user state, and consequence of failure.
+```
+
+A good LLM experience increases perceived understanding, preserves user agency, and reduces accumulated cognitive load.
+
+The system should not make the user repeatedly pay for unclear meaning, weak intent recognition, missing grounding, lost context, unnecessary decisions, repair work, or unresolved uncertainty.
+
 ---
 
 ## Canonical Concept Map
@@ -205,6 +241,38 @@ Example:
 | Answer depends on uncertain evidence | Grounding | Confidence Split |
 | Long task leaves user waiting | Navigation / Load | Visible Work Trace |
 | User faces too many choices | Load | Few Useful Options |
+
+---
+
+## Install
+
+Use SIGNAL as a reusable skill/plugin in your agent workflow.
+
+### Codex
+
+Link this repository as a local skill source or copy the SIGNAL instructions into your Codex skills directory.
+
+```bash
+# Example local skill source
+git clone https://github.com/hi-mundo/SIGNAL
+```
+
+### Claude Code
+
+Install SIGNAL from the Claude Code marketplace:
+
+```bash
+/plugin marketplace add hi-mundo/SIGNAL
+/plugin install signal@hi-mundo
+```
+
+### Other agents
+
+If your agent supports reusable skills, prompts, rules, plugins, or memory packs, link it to this repository:
+
+```text
+https://github.com/hi-mundo/SIGNAL
+```
 
 ---
 
