@@ -170,19 +170,21 @@ SIGNAL is not inventing these concepts from scratch. It organizes them into a pr
 
 SIGNAL does not explain how an agent is implemented internally.
 
-It explains how SIGNAL components can sit on top of an example agent loop and turn user/context information into proactive behavior, visible value, and precise communication about what the user expects.
+It explains how SIGNAL can work as a wall of understanding between messy input and useful output.
 
-The loop shown below is only an illustrative example, like using `example.com` in documentation. It is not a SIGNAL recommendation, pattern, or required architecture.
+The wall reads what enters the interaction: user language, product state, prior context, available evidence, tool limits, risk, and consequence.
 
-The implementation can use RAG, tools, memory, workflows, agents, MCP, databases, or only prompting. The UX responsibilities stay the same.
+Then it applies the SIGNAL dimensions to preserve what matters before the system answers or acts.
+
+The implementation can use RAG, tools, memory, workflows, agents, MCP, databases, or only prompting. The UX responsibility stays the same: increase perceived understanding, preserve agency, and reduce cognitive load.
 
 <p align="center">
-  <img src="docs/assets/wall-of-understanding.svg" alt="SIGNAL Wall of Understanding over an example agent loop" width="100%">
+  <img src="docs/assets/wall-of-understanding.svg" alt="SIGNAL Wall of Understanding interpreting input and improving output" width="100%">
 </p>
 
-This is not an internal architecture diagram. It is a reusable allocation model.
+This is not an internal architecture diagram. It is an interaction-quality model.
 
-SIGNAL shows what an AI experience must preserve for the user, regardless of the actual implementation flow.
+SIGNAL shows what an AI experience must preserve for the user before producing the next message, action, clarification, or handoff.
 
 ---
 
@@ -223,51 +225,98 @@ If the user says something that does not clearly connect to the last message, th
 
 ## How to apply SIGNAL
 
-SIGNAL can be applied to any prompt engineering, agent, bot, assistant, workflow, or AI product by mapping its communication UX responsibilities to the product's actual behavior.
+SIGNAL can be applied to any prompt engineering, agent, bot, assistant, workflow, or AI product by treating each interaction as an attempt to improve the formula:
 
-The following loop is only an example used to explain the concept:
+```text
+Increase:
+  P = perceived understanding
+  A = agency preservation
 
-```mermaid
-flowchart LR
-    U["User / Context"] --> A["Understand"]
-    A --> B["Reason"]
-    B --> C["Act"]
-    C --> D["Validate"]
-    D --> E["Respond"]
-    E --> U
+Decrease:
+  C = accumulated cognitive load
+
+Result:
+  UX = (P + wA · A) / (1 + C)
 ```
 
-In this example, SIGNAL defines what each stage must preserve.
+The practical question is not "which architecture are we using?".
 
-| Example loop stage | SIGNAL responsibility | What belongs here |
-|---|---|---|
-| **Understand** | **Semantics + Intent** | Translate messy user language into clear meaning and likely goal. Handle vague references, metaphors, idioms, corrections, missing context, and indirect requests. |
-| **Reason** | **Grounding + Navigation** | Decide what the answer or action should be based on, what evidence is available, what state matters, what remains uncertain, and what path should be followed. |
-| **Act** | **Agency** | Use tools, memory, workflows, profile data, databases, or external systems only inside clear user-control boundaries. Ask before actions that create consequences. |
-| **Validate** | **Grounding + Agency + Navigation** | Check whether the result is supported, whether the action stayed within scope, whether anything failed, and whether the user needs a recovery path or approval. |
-| **Respond** | **Load** | Communicate the result with the lowest useful cognitive effort: clear summary, visible value, relevant evidence, next step, and no unnecessary reading or typing burden. |
+The practical question is:
 
-This makes SIGNAL reusable across architectures without requiring this specific loop.
+```text
+What is making the user pay extra effort, and which SIGNAL dimension removes that cost?
+```
+
+Use the model as a review algorithm:
+
+```text
+for each user interaction:
+  identify the user's likely goal, state, risk, and context
+
+  estimate P:
+    S = is the meaning clear?
+    I = is the real intent recognized?
+    G = is the answer/action grounded?
+    N = does the user know the current state and next step?
+
+  estimate A:
+    does the user keep control over actions, data, scope, and consequences?
+
+  estimate C:
+    Lr = reading and parsing load
+    D  = decision burden
+    R  = repair cost
+    M  = memory burden
+    U  = uncertainty burden
+
+  improve the interaction by:
+    raising the weakest P factors
+    adding or clarifying agency boundaries
+    removing the largest C costs
+```
+
+This makes SIGNAL reusable across architectures.
 
 It does not matter whether the system is only a prompt, a RAG assistant, a tool-using agent, an MCP workflow, a database-backed bot, or a multi-agent system.
 
-The implementation may change. The UX responsibilities remain the same:
+The implementation may change. The interaction-cost questions remain the same:
+
+| Model part | SIGNAL question | Product change |
+|---|---|---|
+| **P: perceived understanding** | Does the system make the user feel understood for the right reasons? | Clarify meaning, recognize indirect intent, show evidence, expose state, name the next step. |
+| **A: agency preservation** | Does the user stay in control before consequences happen? | Add approval gates, distinguish draft vs execution, show action receipts, make reversal or escalation clear. |
+| **C: accumulated cognitive load** | What work is the product forcing the user to do? | Reduce reading, typing, guessing, remembering, re-explaining, option overload, and uncertainty. |
+
+Use it in six steps:
+
+1. Capture a real interaction: user message, available context, system response, and any action taken.
+2. Score `P`, `A`, and `C` qualitatively: low, medium, or high.
+3. Mark which SIGNAL dimensions caused the score: `S`, `I`, `G`, `N`, `A`, `L`.
+4. Identify the biggest user cost: reading, choosing, repairing, remembering, waiting, guessing, or trusting unsupported output.
+5. Rewrite the interaction so it raises `P`, protects `A`, and lowers `C`.
+6. Turn the failure into an eval, product rule, prompt rule, tool check, retrieval check, or response pattern.
+
+Example:
 
 ```text
-Understand -> preserve meaning and intent.
-Reason -> preserve evidence, uncertainty, and state.
-Act -> preserve user control.
-Validate -> preserve correctness, scope, and recovery.
-Respond -> preserve clarity, value, and low effort.
+User:
+  "can you fix this?"
+
+Weak response:
+  "Sure, I can help. What exactly do you want me to fix?"
+
+SIGNAL read:
+  P is low: "this" may refer to visible context, recent output, selected code, or an error.
+  A is unclear: "fix" may mean explain, patch, run tests, or change production state.
+  C is high: the user must restate context the system may already have.
+
+Better response:
+  "I see the failing checkout test in the current diff.
+  I can inspect the failure and propose a patch first.
+  I will not change files until I show the plan.
+
+  Should I focus on the test failure or the product behavior behind it?"
 ```
-
-Use it in five steps:
-
-1. Map the product's AI behavior to the loop.
-2. Assign SIGNAL responsibilities to each stage.
-3. Choose patterns for the stages that are failing.
-4. Define checks for prompts, tools, retrieval, memory, workflows, and responses.
-5. Convert failures into product changes: better wording, better retrieval, clearer state, safer approval, lower user effort, or a stronger action boundary.
 
 The output of a SIGNAL review should be concrete: rewritten responses, clearer action boundaries, better tool behavior, improved retrieval overlap, evaluation checks, and visible value receipts.
 
