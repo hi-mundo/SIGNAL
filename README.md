@@ -62,28 +62,43 @@ SIGNAL treats LLM UX as an interaction-cost model:
 ```text
 SIGNAL UX Model
 
-P = Σ(wᵢ · xᵢ), where x ∈ {S, I, G, N}
+SI = (Σ(wSᵢ · Sᵢ) · Σ(wIⱼ · Iⱼ)) / (1 + X)
 
-C = Σ(wⱼ · yⱼ), where y ∈ {Lr, D, R, M, U}
+P = SI + wG · G + wN · N
 
-UX = (P + wA · A) / (1 + C)
+B = Σ(wEₖ · Eₖ²)
+
+L = -tanh(Bbefore - Bafter)
+
+C = Bafter + R + U
+
+UX = (P + wA · A + wL · (-L)) / (1 + C)
 
 Where:
 
 P = perceived understanding
-C = accumulated cognitive load
+SI = semantic-intent understanding
+C = residual cognitive load
 A = agency preservation
+L = load-reduction effect:
+    L approaches -1 when the system strongly reduces user burden
+    L is near 0 when the response does not change burden
+    L becomes positive when the response increases burden
 
 S = semantic clarity
-I = intent recognition
+I = pragmatic intent recognition
 G = grounding quality
 N = navigation clarity
 
-Lr = reading and parsing load
-D = decision burden
-R = repair cost
-M = memory burden
-U = uncertainty burden
+X = linguistic friction: ambiguity, unresolved reference, idiom mismatch,
+    vague deixis, cultural/pragmatic gap, or domain vocabulary mismatch
+
+B = cognitive burden
+E = effort stressor: reading load, decision burden, memory burden,
+    repair cost, task difficulty, uncertainty, time pressure, or consequence risk
+
+R = remaining repair cost
+U = remaining uncertainty burden
 
 w = contextual weight. Some factors matter more depending on the product,
 risk level, user state, and consequence of failure.
@@ -91,9 +106,11 @@ risk level, user state, and consequence of failure.
 
 [See a worked example of the model](#worked-example-remarcar-uma-consulta).
 
-A good LLM experience increases perceived understanding, preserves user agency, and reduces accumulated cognitive load.
+`L` is a product UX heuristic, not a clinical or psychiatric assessment. It treats stress, fatigue, task difficulty, uncertainty, and time pressure as interaction burden signals that the product should reduce.
 
-The system should not make the user repeatedly pay for unclear meaning, weak intent recognition, missing grounding, lost context, unnecessary decisions, repair work, or unresolved uncertainty.
+A good LLM experience increases semantic-intent understanding, preserves user agency, and reduces residual cognitive load.
+
+The system should not make the user repeatedly pay for unclear meaning, weak pragmatic intent recognition, missing grounding, lost context, unnecessary decisions, repair work, stress, fatigue, or unresolved uncertainty.
 
 ### Worked example: remarcar uma consulta
 
@@ -229,14 +246,19 @@ SIGNAL can be applied to any prompt engineering, agent, bot, assistant, workflow
 
 ```text
 Increase:
-  P = perceived understanding
+  SI = semantic-intent understanding
+  P  = perceived understanding
   A = agency preservation
 
 Decrease:
-  C = accumulated cognitive load
+  B = cognitive burden before the user has to repair the interaction
+  C = residual cognitive load after the system responds
+
+Push toward -1:
+  L = load-reduction effect
 
 Result:
-  UX = (P + wA · A) / (1 + C)
+  UX = (P + wA · A + wL · (-L)) / (1 + C)
 ```
 
 The practical question is not "which architecture are we using?".
@@ -253,26 +275,32 @@ Use the model as a review algorithm:
 for each user interaction:
   identify the user's likely goal, state, risk, and context
 
-  estimate P:
+  estimate SI:
     S = is the meaning clear?
-    I = is the real intent recognized?
+    I = is the pragmatic intent recognized?
+    X = what linguistic friction remains?
+
+  estimate P:
+    SI = did the system connect meaning and intent?
     G = is the answer/action grounded?
     N = does the user know the current state and next step?
 
   estimate A:
     does the user keep control over actions, data, scope, and consequences?
 
-  estimate C:
-    Lr = reading and parsing load
-    D  = decision burden
-    R  = repair cost
-    M  = memory burden
-    U  = uncertainty burden
+  estimate B and L:
+    E = effort stressors such as reading, choosing, remembering,
+        repairing, waiting, uncertainty, time pressure, or consequence risk
+    Bbefore = estimated burden if the system gives a normal/generic response
+    Bafter  = estimated burden after the proposed SIGNAL response
+    L = -tanh(Bbefore - Bafter)
+        closer to -1 means the system removed more burden from the user
 
   improve the interaction by:
-    raising the weakest P factors
+    raising SI before adding more text
+    grounding and navigating only what matters
     adding or clarifying agency boundaries
-    removing the largest C costs
+    removing the largest burden sources
 ```
 
 This makes SIGNAL reusable across architectures.
@@ -283,17 +311,19 @@ The implementation may change. The interaction-cost questions remain the same:
 
 | Model part | SIGNAL question | Product change |
 |---|---|---|
-| **P: perceived understanding** | Does the system make the user feel understood for the right reasons? | Clarify meaning, recognize indirect intent, show evidence, expose state, name the next step. |
+| **SI: semantic-intent understanding** | Did the system connect what the user said with what the user meant? | Resolve vague references, indirect requests, idioms, corrections, domain terms, and cultural/pragmatic cues. |
+| **P: perceived understanding** | Does the system make the user feel understood for the right reasons? | Combine `SI` with evidence, state, and next step. |
 | **A: agency preservation** | Does the user stay in control before consequences happen? | Add approval gates, distinguish draft vs execution, show action receipts, make reversal or escalation clear. |
-| **C: accumulated cognitive load** | What work is the product forcing the user to do? | Reduce reading, typing, guessing, remembering, re-explaining, option overload, and uncertainty. |
+| **L: load-reduction effect** | Did the system reduce effort, stress, and fatigue created by the task? | Remove reading, typing, guessing, remembering, re-explaining, option overload, and uncertainty. |
+| **C: residual cognitive load** | What burden is still left for the user after the response? | Keep only the necessary next decision, missing input, or approval. |
 
 Use it in six steps:
 
 1. Capture a real interaction: user message, available context, system response, and any action taken.
-2. Score `P`, `A`, and `C` qualitatively: low, medium, or high.
+2. Score `SI`, `P`, `A`, `L`, and `C` qualitatively: low, medium, or high.
 3. Mark which SIGNAL dimensions caused the score: `S`, `I`, `G`, `N`, `A`, `L`.
 4. Identify the biggest user cost: reading, choosing, repairing, remembering, waiting, guessing, or trusting unsupported output.
-5. Rewrite the interaction so it raises `P`, protects `A`, and lowers `C`.
+5. Rewrite the interaction so it raises `SI` and `P`, protects `A`, pushes `L` toward `-1`, and lowers `C`.
 6. Turn the failure into an eval, product rule, prompt rule, tool check, retrieval check, or response pattern.
 
 Example:

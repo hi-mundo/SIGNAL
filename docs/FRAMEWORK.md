@@ -15,6 +15,7 @@ Use [`../README.md`](../README.md) as the public entry point, [`RESEARCH_AND_BEN
 - [Framework scope](#framework-scope)
 - [Core thesis](#core-thesis)
 - [Canonical concept map](#canonical-concept-map)
+- [Interaction-cost model](#interaction-cost-model)
 - [Wall of Understanding](#wall-of-understanding)
 - [How to apply SIGNAL](#how-to-apply-signal)
 - [The six SIGNAL pillars](#the-six-signal-pillars)
@@ -100,71 +101,127 @@ SIGNAL is not inventing these concepts from scratch. It organizes them into a pr
 
 ---
 
+## Interaction-cost model
+
+SIGNAL treats LLM UX as an interaction-cost model:
+
+```text
+SI = (Σ(wSᵢ · Sᵢ) · Σ(wIⱼ · Iⱼ)) / (1 + X)
+
+P = SI + wG · G + wN · N
+
+B = Σ(wEₖ · Eₖ²)
+
+L = -tanh(Bbefore - Bafter)
+
+C = Bafter + R + U
+
+UX = (P + wA · A + wL · (-L)) / (1 + C)
+```
+
+`SI` is semantic-intent understanding. It deliberately binds Semantics and Intent because users do not experience meaning and intent as separate failures. If the language is clear but the pragmatic intent is missed, understanding is still weak.
+
+`X` is linguistic friction: ambiguity, unresolved reference, idiom mismatch, vague deixis, cultural or pragmatic gap, or domain vocabulary mismatch.
+
+`B` is cognitive burden from effort stressors such as reading load, decision burden, memory burden, repair cost, task difficulty, uncertainty, time pressure, or consequence risk.
+
+`L` is the load-reduction effect. It approaches `-1` when the system strongly reduces user burden, stays near `0` when the response does not change burden, and becomes positive when the response makes the user's burden worse.
+
+`L` is a product UX heuristic, not a clinical or psychiatric assessment. It treats stress, fatigue, task difficulty, uncertainty, and time pressure as interaction burden signals that the product should reduce.
+
+---
+
 ## Wall of Understanding
 
 SIGNAL does not prescribe an internal agent architecture.
 
-It defines how SIGNAL components can sit on top of an example agent loop and turn uncharted user input into useful AI behavior. This layer exists whether the product uses RAG, tools, memory, workflows, agents, MCP, databases, or only prompting.
+It explains how SIGNAL can work as a wall of understanding between the same real user input and two different outcomes.
 
-The loop shown below is only an illustrative example, like using `example.com` in documentation. It is not a SIGNAL recommendation, pattern, or required architecture.
+Without a SIGNAL pattern, the system may turn the entered content into a normal response that is plausible but still generic, rigid, or costly for the user.
 
-User input is uncharted because people communicate with incomplete context, vague references, emotional shortcuts, metaphors, indirect requests, corrections, and references to earlier or current context.
+With SIGNAL, the wall reads what enters the interaction: user language, product state, prior context, available evidence, tool limits, risk, and consequence. Then it applies the SIGNAL dimensions and the UX formula before the system answers or acts.
 
 ![SIGNAL Wall of Understanding](assets/wall-of-understanding.svg)
 
 This is not an internal architecture diagram.
 
-It is a reusable allocation model: it shows what an AI experience must preserve for the user, regardless of the actual implementation flow.
+It is an interaction-quality model: it shows what an AI experience must preserve for the user before producing the next message, action, clarification, or handoff.
 
 ---
 
 ## How to apply SIGNAL
 
-SIGNAL can be applied to any prompt engineering, agent, bot, assistant, workflow, or AI product by mapping its communication UX responsibilities to the product's actual behavior.
-
-The following loop is only an example used to explain the concept:
-
-```mermaid
-flowchart LR
-    U["User / Context"] --> A["Understand"]
-    A --> B["Reason"]
-    B --> C["Act"]
-    C --> D["Validate"]
-    D --> E["Respond"]
-    E --> U
-```
-
-In this example, SIGNAL defines what each stage must preserve.
-
-| Example loop stage | SIGNAL responsibility | What belongs here |
-|---|---|---|
-| **Understand** | **Semantics + Intent** | Translate messy user language into clear meaning and likely goal. Handle vague references, metaphors, idioms, corrections, missing context, and indirect requests. |
-| **Reason** | **Grounding + Navigation** | Decide what the answer or action should be based on, what evidence is available, what state matters, what remains uncertain, and what path should be followed. |
-| **Act** | **Agency** | Use tools, memory, workflows, profile data, databases, or external systems only inside clear user-control boundaries. Ask before actions that create consequences. |
-| **Validate** | **Grounding + Agency + Navigation** | Check whether the result is supported, whether the action stayed within scope, whether anything failed, and whether the user needs a recovery path or approval. |
-| **Respond** | **Load** | Communicate the result with the lowest useful cognitive effort: clear summary, visible value, relevant evidence, next step, and no unnecessary reading or typing burden. |
-
-This makes SIGNAL reusable across architectures without requiring this specific loop.
-
-It does not matter whether the system is only a prompt, a RAG assistant, a tool-using agent, an MCP workflow, a database-backed bot, or a multi-agent system.
-
-The implementation may change. The UX responsibilities remain the same:
+SIGNAL can be applied to any prompt engineering, agent, bot, assistant, workflow, or AI product by treating each interaction as an attempt to improve the formula:
 
 ```text
-Understand -> preserve meaning and intent.
-Reason -> preserve evidence, uncertainty, and state.
-Act -> preserve user control.
-Validate -> preserve correctness, scope, and recovery.
-Respond -> preserve clarity, value, and low effort.
+Increase:
+  SI = semantic-intent understanding
+  P  = perceived understanding
+  A  = agency preservation
+
+Decrease:
+  B = cognitive burden before the user has to repair the interaction
+  C = residual cognitive load after the system responds
+
+Push toward -1:
+  L = load-reduction effect
+
+Result:
+  UX = (P + wA · A + wL · (-L)) / (1 + C)
 ```
 
-Use it in five steps:
+Use the model as a review algorithm:
 
-1. Map the product's AI behavior to the loop.
-2. Assign SIGNAL responsibilities to each stage.
-3. Choose patterns for the stages that are failing.
-4. Define checks for prompts, tools, retrieval, memory, workflows, and responses.
-5. Convert failures into product changes: better wording, better retrieval, clearer state, safer approval, lower user effort, or a stronger action boundary.
+```text
+for each user interaction:
+  identify the user's likely goal, state, risk, and context
+
+  estimate SI:
+    S = is the meaning clear?
+    I = is the pragmatic intent recognized?
+    X = what linguistic friction remains?
+
+  estimate P:
+    SI = did the system connect meaning and intent?
+    G = is the answer/action grounded?
+    N = does the user know the current state and next step?
+
+  estimate A:
+    does the user keep control over actions, data, scope, and consequences?
+
+  estimate B and L:
+    E = effort stressors such as reading, choosing, remembering,
+        repairing, waiting, uncertainty, time pressure, or consequence risk
+    Bbefore = estimated burden if the system gives a normal/generic response
+    Bafter  = estimated burden after the proposed SIGNAL response
+    L = -tanh(Bbefore - Bafter)
+        closer to -1 means the system removed more burden from the user
+
+  improve the interaction by:
+    raising SI before adding more text
+    grounding and navigating only what matters
+    adding or clarifying agency boundaries
+    removing the largest burden sources
+```
+
+The implementation may change. The interaction-cost questions remain the same:
+
+| Model part | SIGNAL question | Product change |
+|---|---|---|
+| **SI: semantic-intent understanding** | Did the system connect what the user said with what the user meant? | Resolve vague references, indirect requests, idioms, corrections, domain terms, and cultural/pragmatic cues. |
+| **P: perceived understanding** | Does the system make the user feel understood for the right reasons? | Combine `SI` with evidence, state, and next step. |
+| **A: agency preservation** | Does the user stay in control before consequences happen? | Add approval gates, distinguish draft vs execution, show action receipts, make reversal or escalation clear. |
+| **L: load-reduction effect** | Did the system reduce effort, stress, and fatigue created by the task? | Remove reading, typing, guessing, remembering, re-explaining, option overload, and uncertainty. |
+| **C: residual cognitive load** | What burden is still left for the user after the response? | Keep only the necessary next decision, missing input, or approval. |
+
+Use it in six steps:
+
+1. Capture a real interaction: user message, available context, system response, and any action taken.
+2. Score `SI`, `P`, `A`, `L`, and `C` qualitatively: low, medium, or high.
+3. Mark which SIGNAL dimensions caused the score: `S`, `I`, `G`, `N`, `A`, `L`.
+4. Identify the biggest user cost: reading, choosing, repairing, remembering, waiting, guessing, or trusting unsupported output.
+5. Rewrite the interaction so it raises `SI` and `P`, protects `A`, pushes `L` toward `-1`, and lowers `C`.
+6. Turn the failure into an eval, product rule, prompt rule, tool check, retrieval check, or response pattern.
 
 The output of a SIGNAL review should be concrete: rewritten responses, clearer action boundaries, better tool behavior, improved retrieval overlap, evaluation checks, and visible value receipts.
 

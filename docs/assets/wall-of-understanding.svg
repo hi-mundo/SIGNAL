@@ -84,8 +84,9 @@
     <text class="label" x="279" y="197" text-anchor="middle">L</text>
     <text class="small" x="279" y="218" text-anchor="middle">load</text>
 
-    <rect class="formula" x="36" y="258" width="284" height="48" rx="8"/>
-    <text class="mono" x="178" y="288" text-anchor="middle">UX = (P + wA · A) / (1 + C)</text>
+    <rect class="formula" x="36" y="250" width="284" height="64" rx="8"/>
+    <text class="mono" x="178" y="277" text-anchor="middle">SI = S · I / (1 + X)</text>
+    <text class="mono" x="178" y="302" text-anchor="middle">UX = (P + A - L) / (1 + C)</text>
   </g>
 
   <path class="good-line" d="M994 304 H1064"/>
