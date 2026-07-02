@@ -57,56 +57,73 @@ SIGNAL designs the communication layer between messy human language and useful A
 | **A** | **Agency** | Does it ask before taking technical actions, using profile data, storing preferences, changing state, or creating consequences for the user? |
 | **L** | **Load** | Does it reduce mental load by summarizing complex facts, keeping context clear, preserving semantic consistency, and avoiding unsupported user decision burden? |
 
-SIGNAL treats LLM UX as an interaction-cost model:
+SIGNAL uses a grounded review model, not a validated universal UX equation.
+
+The model separates two things:
+
+1. **Semantic-intent understanding**, grounded in linguistics and pragmatics.
+2. **User workload**, grounded in cognitive load and subjective workload research.
 
 ```text
-SIGNAL UX Model
+SIGNAL Review Model
 
-SI = (Σ(wSᵢ · Sᵢ) · Σ(wIⱼ · Iⱼ)) / (1 + X)
+SI checks:
+  S  = semantic clarity
+  I  = pragmatic intent / speech act
+  R  = relevance to the user's goal
+  M  = manner / clarity of expression
+  CG = common ground preserved
 
-P = SI + wG · G + wN · N
+SI = Σ(wᵢ · scoreᵢ) / Σwᵢ
+where i ∈ {S, I, R, M, CG}
 
-B = Σ(wEₖ · Eₖ²)
+SI is not a mathematical law. It is a weighted product rubric
+teams can score consistently.
 
-L = -tanh(Bbefore - Bafter)
+Workload uses a Raw NASA-TLX-style review:
 
-C = Bafter + R + U
-
-UX = (P + wA · A + wL · (-L)) / (1 + C)
+WL = Σ(wⱼ · ratingⱼ) / Σwⱼ
+where j ∈ {MD, TD, EF, FR, P_inv}
 
 Where:
+  MD = mental demand
+  TD = temporal demand
+  EF = effort
+  FR = frustration
+  P_inv = inverted performance burden, when useful
 
-P = perceived understanding
-SI = semantic-intent understanding
-C = residual cognitive load
-A = agency preservation
-L = load-reduction effect:
-    L approaches -1 when the system strongly reduces user burden
-    L is near 0 when the response does not change burden
-    L becomes positive when the response increases burden
+ΔWL = WL_after - WL_before
 
-S = semantic clarity
-I = pragmatic intent recognition
-G = grounding quality
-N = navigation clarity
-
-X = linguistic friction: ambiguity, unresolved reference, idiom mismatch,
-    vague deixis, cultural/pragmatic gap, or domain vocabulary mismatch
-
-B = cognitive burden
-E = effort stressor: reading load, decision burden, memory burden,
-    repair cost, task difficulty, uncertainty, time pressure, or consequence risk
-
-R = remaining repair cost
-U = remaining uncertainty burden
-
-w = contextual weight. Some factors matter more depending on the product,
-risk level, user state, and consequence of failure.
+Target:
+  SI improves
+  Grounding, Navigation, and Agency are preserved
+  ΔWL < 0
 ```
+
+Use weights to make the review match the product context:
+
+- Increase `wI` when indirect requests, commands, approvals, or tool use matter.
+- Increase `wCG` when the product is stateful, multi-turn, or memory-heavy.
+- Increase `wR` when wrong-topic answers are the main failure mode.
+- Increase `wM` when users are tired, mobile, non-expert, or under time pressure.
+- Increase `wMD`, `wTD`, `wEF`, or `wFR` when the task is mentally hard, urgent, effortful, or frustrating.
+- Keep weights documented per flow. Do not tune them silently to make a redesign look better.
 
 [See a worked example of the model](#worked-example-remarcar-uma-consulta).
 
-`L` is a product UX heuristic, not a clinical or psychiatric assessment. It treats stress, fatigue, task difficulty, uncertainty, and time pressure as interaction burden signals that the product should reduce.
+The linguistic side is grounded in Grice's cooperative principle, speech act theory, and common-ground / grounding theory.
+
+The workload side follows the shape of NASA-TLX / Raw TLX: mental demand, time pressure, effort, frustration, and performance are treated as subjective workload signals.
+
+This is not a clinical or psychiatric assessment. SIGNAL treats stress, fatigue, task difficulty, uncertainty, and time pressure as interaction burden signals that the product should reduce.
+
+Primary anchors:
+
+- Grice, **Logic and Conversation**: [cooperative principle](https://en.wikipedia.org/wiki/Cooperative_principle), relevance, manner, quantity, quality.
+- Searle, **Speech Acts** and [speech act theory](https://en.wikipedia.org/wiki/Speech_Acts): utterances as actions, not only text.
+- Clark and Brennan, **Grounding in Communication**: [common ground and grounding costs](https://en.wikipedia.org/wiki/Grounding_in_communication).
+- Sweller, **Cognitive Load During Problem Solving**: [working-memory burden during difficult tasks](https://doi.org/10.1016/0364-0213(88)90023-7).
+- [NASA-TLX / Raw TLX](https://www.nasa.gov/human-systems-integration-division/): subjective workload dimensions such as mental demand, temporal demand, effort, frustration, and performance.
 
 A good LLM experience increases semantic-intent understanding, preserves user agency, and reduces residual cognitive load.
 
@@ -191,7 +208,7 @@ It explains how SIGNAL can work as a wall of understanding between the same real
 
 Without a SIGNAL pattern, the system may turn the entered content into a normal response that is plausible but still generic, rigid, or costly for the user.
 
-With SIGNAL, the wall reads what enters the interaction: user language, product state, prior context, available evidence, tool limits, risk, and consequence. Then it applies the SIGNAL dimensions and the UX formula before the system answers or acts.
+With SIGNAL, the wall reads what enters the interaction: user language, product state, prior context, available evidence, tool limits, risk, and consequence. Then it applies the SIGNAL dimensions and the weighted review model before the system answers or acts.
 
 The implementation can use RAG, tools, memory, workflows, agents, MCP, databases, or only prompting. The UX responsibility stays the same: increase perceived understanding, preserve agency, and reduce cognitive load.
 
@@ -242,24 +259,7 @@ If the user says something that does not clearly connect to the last message, th
 
 ## How to apply SIGNAL
 
-SIGNAL can be applied to any prompt engineering, agent, bot, assistant, workflow, or AI product by treating each interaction as an attempt to improve the formula:
-
-```text
-Increase:
-  SI = semantic-intent understanding
-  P  = perceived understanding
-  A = agency preservation
-
-Decrease:
-  B = cognitive burden before the user has to repair the interaction
-  C = residual cognitive load after the system responds
-
-Push toward -1:
-  L = load-reduction effect
-
-Result:
-  UX = (P + wA · A + wL · (-L)) / (1 + C)
-```
+SIGNAL can be applied to any prompt engineering, agent, bot, assistant, workflow, or AI product by comparing the same interaction before and after the SIGNAL pattern.
 
 The practical question is not "which architecture are we using?".
 
@@ -274,33 +274,37 @@ Use the model as a review algorithm:
 ```text
 for each user interaction:
   identify the user's likely goal, state, risk, and context
+  choose weights before scoring, based on domain risk and user burden
 
-  estimate SI:
-    S = is the meaning clear?
-    I = is the pragmatic intent recognized?
-    X = what linguistic friction remains?
+  review semantic-intent understanding:
+    S  = is the literal meaning clear?
+    I  = is the likely speech act / pragmatic intent recognized?
+    R  = is the response relevant to the user's goal?
+    M  = is the expression clear, ordered, and not needlessly obscure?
+    CG = does the response preserve common ground and prior context?
 
-  estimate P:
-    SI = did the system connect meaning and intent?
+  review SIGNAL preservation:
     G = is the answer/action grounded?
-    N = does the user know the current state and next step?
+    N = does the user know current state and next step?
+    A = does the user keep control over actions and consequences?
 
-  estimate A:
-    does the user keep control over actions, data, scope, and consequences?
+  compare workload before and after:
+    WL_before = expected workload of the normal/generic response
+    WL_after  = expected workload of the SIGNAL rewrite
+    ΔWL       = WL_after - WL_before
 
-  estimate B and L:
-    E = effort stressors such as reading, choosing, remembering,
-        repairing, waiting, uncertainty, time pressure, or consequence risk
-    Bbefore = estimated burden if the system gives a normal/generic response
-    Bafter  = estimated burden after the proposed SIGNAL response
-    L = -tanh(Bbefore - Bafter)
-        closer to -1 means the system removed more burden from the user
+    use workload dimensions such as:
+      mental demand
+      temporal demand
+      effort
+      frustration
+      optional inverted performance
 
   improve the interaction by:
-    raising SI before adding more text
+    improving semantic-intent understanding before adding more text
     grounding and navigating only what matters
     adding or clarifying agency boundaries
-    removing the largest burden sources
+    reducing workload dimensions with the highest scores
 ```
 
 This makes SIGNAL reusable across architectures.
@@ -311,19 +315,18 @@ The implementation may change. The interaction-cost questions remain the same:
 
 | Model part | SIGNAL question | Product change |
 |---|---|---|
-| **SI: semantic-intent understanding** | Did the system connect what the user said with what the user meant? | Resolve vague references, indirect requests, idioms, corrections, domain terms, and cultural/pragmatic cues. |
-| **P: perceived understanding** | Does the system make the user feel understood for the right reasons? | Combine `SI` with evidence, state, and next step. |
+| **Semantic-intent understanding** | Did the system connect what the user said with what the user meant? | Resolve vague references, indirect requests, idioms, corrections, domain terms, and cultural/pragmatic cues. |
+| **Grounding + Navigation** | Does the user know what the answer depends on and where they are in the task? | Show evidence, uncertainty, state, and next step. |
 | **A: agency preservation** | Does the user stay in control before consequences happen? | Add approval gates, distinguish draft vs execution, show action receipts, make reversal or escalation clear. |
-| **L: load-reduction effect** | Did the system reduce effort, stress, and fatigue created by the task? | Remove reading, typing, guessing, remembering, re-explaining, option overload, and uncertainty. |
-| **C: residual cognitive load** | What burden is still left for the user after the response? | Keep only the necessary next decision, missing input, or approval. |
+| **Workload delta** | Did the SIGNAL rewrite reduce mental demand, time pressure, effort, or frustration? | Remove reading, typing, guessing, remembering, re-explaining, option overload, and uncertainty. |
 
 Use it in six steps:
 
 1. Capture a real interaction: user message, available context, system response, and any action taken.
-2. Score `SI`, `P`, `A`, `L`, and `C` qualitatively: low, medium, or high.
+2. Score semantic-intent understanding and workload qualitatively or with a simple 0-2 rubric.
 3. Mark which SIGNAL dimensions caused the score: `S`, `I`, `G`, `N`, `A`, `L`.
 4. Identify the biggest user cost: reading, choosing, repairing, remembering, waiting, guessing, or trusting unsupported output.
-5. Rewrite the interaction so it raises `SI` and `P`, protects `A`, pushes `L` toward `-1`, and lowers `C`.
+5. Rewrite the interaction so it improves semantic-intent understanding, protects agency, and reduces workload.
 6. Turn the failure into an eval, product rule, prompt rule, tool check, retrieval check, or response pattern.
 
 Example:
