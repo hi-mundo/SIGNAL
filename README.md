@@ -9,7 +9,9 @@
   <img src="docs/assets/signal-cover.svg" alt="SIGNAL: A UX framework for language-based AI systems" width="100%">
 </p>
 
-SIGNAL is a pattern framework for LLM UX, human-AI interaction, conversational AI, agent UX, semantic clarity, cognitive load, and, most importantly, user experience in LLM-based systems.
+SIGNAL is a pattern framework for LLM UX: the user experience created by language, context, state, evidence, action boundaries, and cognitive effort in LLM-based systems.
+
+It is not a prompt trick or an agent architecture. It is a communication UX layer that helps teams compare the same user input with and without explicit patterns for understanding, grounding, agency, and workload reduction.
 
 | Status | Scope | Focus | Format | License |
 |---|---|---|---|---|
@@ -30,6 +32,23 @@ SIGNAL is a pattern framework for LLM UX, human-AI interaction, conversational A
 
 When conversation is the interface, communication is the product experience.
 
+Same user input, different UX path:
+
+```text
+User:
+  "can you fix this?"
+
+Without SIGNAL:
+  "Sure. What exactly do you want me to fix?"
+
+With SIGNAL:
+  "I see the failing checkout test in the current diff.
+  I can inspect the failure and propose a patch first.
+  I will not edit files until you approve.
+
+  Should I focus on the test failure or the product behavior behind it?"
+```
+
 ---
 
 ## Why SIGNAL
@@ -43,6 +62,8 @@ LLMs are optimized to generate plausible continuations of language. Product expe
 That gap is where UX matters.
 
 SIGNAL designs the communication layer between messy human language and useful AI behavior.
+
+LLM UX is not traditional UI, prompt engineering, or conversation design alone. It is the combined experience of what the system understands, what it can safely do, what it shows as evidence, how it preserves state, and how much work it leaves for the user.
 
 ---
 
@@ -109,7 +130,16 @@ Use weights to make the review match the product context:
 - Increase `wMD`, `wTD`, `wEF`, or `wFR` when the task is mentally hard, urgent, effortful, or frustrating.
 - Keep weights documented per flow. Do not tune them silently to make a redesign look better.
 
-[See a worked example of the model](#worked-example-remarcar-uma-consulta).
+Example weight profiles:
+
+| Flow | Higher weights | Why |
+|---|---|---|
+| Customer support refund | `wI`, `wA`, `wFR` | Intent, approval boundaries, and frustration drive the experience. |
+| Developer copilot | `wCG`, `wG`, `wEF` | Repo state, evidence, and effort reduction matter more than friendliness. |
+| Healthcare scheduling | `wG`, `wA`, `wM`, `wMD` | Grounding, consent, clarity, and mental demand matter under risk. |
+| Enterprise search | `wR`, `wG`, `wCG` | Relevance, source boundaries, and shared context prevent generic answers. |
+
+[See a worked example of the model](#worked-example-rescheduling-an-appointment).
 
 The linguistic side is grounded in Grice's cooperative principle, speech act theory, and common-ground / grounding theory.
 
@@ -129,56 +159,60 @@ A good LLM experience increases semantic-intent understanding, preserves user ag
 
 The system should not make the user repeatedly pay for unclear meaning, weak pragmatic intent recognition, missing grounding, lost context, unnecessary decisions, repair work, stress, fatigue, or unresolved uncertainty.
 
-### Worked example: remarcar uma consulta
+### Worked example: rescheduling an appointment
 
 User message:
 
 ```text
-quero remarcar minha consulta
+I need to reschedule my appointment
 ```
 
 Weak experience:
 
 ```text
-Claro. Para qual data voce quer remarcar?
+Sure. What date do you want to reschedule it to?
 ```
 
 The answer is not wrong, but the UX cost is high:
 
 ```text
-P is low:
-  S is acceptable, but I is incomplete.
-  G is missing because the system does not show the current appointment.
-  N is weak because the user does not know what state the system found.
+Semantic-intent understanding is incomplete:
+  The system recognizes "reschedule", but does not connect it to the
+  known appointment state or likely next step.
 
-A is unclear:
+Grounding and Navigation are weak:
+  The system does not show the current appointment.
+  The user does not know whether the system found the right booking.
+
+Agency is unclear:
   The user cannot tell whether the system is only asking,
   checking availability, or preparing to change the booking.
 
-C is high:
-  Lr increases because the user has to parse the missing state.
-  D increases because the user must choose without seeing options.
-  R may increase if the system found the wrong appointment.
-  M increases because the user must remember appointment details.
-  U increases because consequences are unclear.
+Workload is high:
+  Mental demand increases because the user must infer missing state.
+  Effort increases because the user must remember appointment details.
+  Frustration may increase if the system asks for information it already has.
+  Risk increases if the wrong appointment is selected.
 ```
 
 Better SIGNAL-style experience:
 
 ```text
-Encontrei sua consulta atual com Dra. Ana em 12/07 as 14h.
-Posso buscar horarios disponiveis para remarcar.
-Antes de alterar qualquer coisa, vou apenas listar opcoes.
+I found your current appointment with Dr. Ana on July 12 at 2:00 PM.
+I can look for available times to reschedule it.
+Before changing anything, I will only list options.
 
-Voce prefere manha, tarde ou o primeiro horario disponivel?
+Do you prefer morning, afternoon, or the first available slot?
 ```
 
 In the model:
 
 ```text
-P increases because the system shows context, intent, grounding, and next step.
-A is preserved because no booking is changed without approval.
-C decreases because the user does not have to remember, repair, or guess the flow.
+SI improves because the system connects the user's wording with the task.
+Grounding improves because the current appointment is visible.
+Agency is preserved because no booking is changed without approval.
+Workload decreases because the user does not have to remember, repair,
+or guess the flow.
 ```
 
 ---
@@ -339,9 +373,14 @@ Weak response:
   "Sure, I can help. What exactly do you want me to fix?"
 
 SIGNAL read:
-  P is low: "this" may refer to visible context, recent output, selected code, or an error.
-  A is unclear: "fix" may mean explain, patch, run tests, or change production state.
-  C is high: the user must restate context the system may already have.
+  Semantic-intent understanding is weak:
+    "this" may refer to visible context, recent output, selected code, or an error.
+
+  Agency is unclear:
+    "fix" may mean explain, patch, run tests, or change production state.
+
+  Workload is high:
+    the user must restate context the system may already have.
 
 Better response:
   "I see the failing checkout test in the current diff.
@@ -377,6 +416,21 @@ Example:
 | Answer depends on uncertain evidence | Grounding | Confidence Split |
 | Long task leaves user waiting | Navigation / Load | Visible Work Trace |
 | User faces too many choices | Load | Few Useful Options |
+
+---
+
+## Framework vs toolkit
+
+SIGNAL has two layers:
+
+| Layer | Purpose | Repo surface |
+|---|---|---|
+| **Framework** | Shared vocabulary, principles, criteria, patterns, and anti-patterns. | `README.md`, `docs/FRAMEWORK.md`, `docs/PATTERNS.md`, `docs/WHY_SIGNAL.md` |
+| **Toolkit** | Practical adoption assets for teams. | `templates/`, domain `profiles/`, future `examples/`, future `evals/` |
+
+The framework explains what good LLM UX should preserve.
+
+The toolkit should make that review operational: flow specs, before/after examples, weighted rubrics, eval rules, and product metrics.
 
 ---
 
@@ -421,7 +475,17 @@ https://github.com/hi-mundo/SIGNAL
 | [`docs/PATTERNS.md`](docs/PATTERNS.md) | Practical patterns for conversation UX. |
 | [`docs/WHY_SIGNAL.md`](docs/WHY_SIGNAL.md) | The thesis behind language-first AI UX. |
 | [`docs/FOR_TEAMS.md`](docs/FOR_TEAMS.md) | How product, design, engineering, support, and eval teams can use SIGNAL. |
+| [`examples/dev_assistant_repo_edit.md`](examples/dev_assistant_repo_edit.md) | Before/after SIGNAL example for developer tools. |
+| [`examples/customer_support_refund.md`](examples/customer_support_refund.md) | Before/after SIGNAL example for customer support. |
 | [`templates/conversation_ux_review.md`](templates/conversation_ux_review.md) | Copyable review template. |
+| [`templates/flow_spec.md`](templates/flow_spec.md) | Flow-level UX spec with weights, risks, and before/after rewrite. |
+| [`templates/assistant_behavior_spec.md`](templates/assistant_behavior_spec.md) | Assistant behavior contract for implementation. |
+
+Planned operational additions:
+
+| Path | Purpose |
+|---|---|
+| `evals/` | SIGNAL-oriented review rules and transcript checks. |
 
 ---
 
